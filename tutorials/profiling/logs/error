@@ -1,0 +1,384 @@
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 512, 13, 13, 'float32'), (1000, 512, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 64, 13, 13, 'float32'), (256, 64, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 512, 13, 13, 'float32'), (64, 512, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 64, 27, 27, 'float32'), (256, 64, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 384, 27, 27, 'float32'), (64, 384, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 48, 27, 27, 'float32'), (192, 48, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 384, 27, 27, 'float32'), (48, 384, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 256, 27, 27, 'float32'), (48, 256, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 32, 27, 27, 'float32'), (128, 32, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 256, 27, 27, 'float32'), (32, 256, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 32, 54, 54, 'float32'), (128, 32, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 128, 54, 54, 'float32'), (32, 128, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 16, 54, 54, 'float32'), (64, 16, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 128, 54, 54, 'float32'), (16, 128, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 96, 54, 54, 'float32'), (16, 96, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 3, 224, 224, 'float32'), (96, 3, 7, 7, 'float32'), (2, 2), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 16, 54, 54, 'float32'), (64, 16, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 32, 54, 54, 'float32'), (128, 32, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 32, 27, 27, 'float32'), (128, 32, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 48, 27, 27, 'float32'), (192, 48, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 64, 27, 27, 'float32'), (256, 64, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 64, 13, 13, 'float32'), (256, 64, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:93: Iteration: 0
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #0 fused_nn_conv2d_15: 12614 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #1 fused_nn_bias_add_13: 501.421 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #2 fused_nn_relu_13: 212.478 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #3 fused_nn_max_pool2d_2: 590.638 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #4 fused_nn_conv2d_14: 545.417 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #5 fused_nn_bias_add_12: 16.8498 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #6 fused_nn_relu_12: 7.5288 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #7 fused_nn_conv2d_12: 401.483 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #8 fused_nn_bias_add_11: 40.6714 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #9 fused_nn_relu_11: 35.6688 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #10 fused_nn_conv2d_16: 1871.15 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #11 fused_nn_bias_add_111: 63.1273 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #12 fused_nn_relu_111: 35.0915 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #13 fused_concatenate_5: 125.896 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #14 fused_nn_conv2d_13: 698.643 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #15 fused_nn_bias_add_121: 12.2185 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #16 fused_nn_relu_121: 7.5827 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #17 fused_nn_conv2d_121: 403.276 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #18 fused_nn_bias_add_112: 44.603 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #19 fused_nn_relu_112: 34.2568 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #20 fused_nn_conv2d_161: 1869.09 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #21 fused_nn_bias_add_113: 36.0267 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #22 fused_nn_relu_113: 34.1064 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #23 fused_concatenate_51: 123.624 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #24 fused_nn_conv2d_11: 1246.17 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #25 fused_nn_bias_add_10: 20.8928 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #26 fused_nn_relu_10: 19.0429 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #27 fused_nn_conv2d_10: 1322.57 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #28 fused_nn_bias_add_9: 120.386 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #29 fused_nn_relu_9: 67.7083 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #30 fused_nn_conv2d_17: 7219.31 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #31 fused_nn_bias_add_91: 143.703 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #32 fused_nn_relu_91: 67.2085 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #33 fused_concatenate_4: 263.873 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #34 fused_nn_max_pool2d_1: 438.035 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #35 fused_nn_conv2d_9: 573.297 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #36 fused_nn_bias_add_8: 12.0381 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #37 fused_nn_relu_8: 5.3776 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #38 fused_nn_conv2d_8: 261.718 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #39 fused_nn_bias_add_7: 23.0301 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #40 fused_nn_relu_7: 19.1867 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #41 fused_nn_conv2d_18: 1855.29 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #42 fused_nn_bias_add_71: 20.4565 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #43 fused_nn_relu_71: 18.4725 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #44 fused_concatenate_3: 60.7979 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #45 fused_nn_conv2d_7: 718.666 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #46 fused_nn_bias_add_6: 14.8697 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #47 fused_nn_relu_6: 6.5514 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #48 fused_nn_conv2d_5: 535.99 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #49 fused_nn_bias_add_5: 37.5143 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #50 fused_nn_relu_5: 26.6957 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #51 fused_nn_conv2d_19: 4107.86 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #52 fused_nn_bias_add_51: 43.8599 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #53 fused_nn_relu_51: 26.9653 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #54 fused_concatenate_2: 104.188 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #55 fused_nn_conv2d_6: 1183.57 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #56 fused_nn_bias_add_61: 13.4034 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #57 fused_nn_relu_61: 6.4676 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #58 fused_nn_conv2d_51: 533.159 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #59 fused_nn_bias_add_52: 34.867 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #60 fused_nn_relu_52: 27.713 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #61 fused_nn_conv2d_191: 4117.7 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #62 fused_nn_bias_add_53: 45.0239 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #63 fused_nn_relu_53: 27.8538 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #64 fused_concatenate_21: 108.464 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #65 fused_nn_conv2d_4: 1512.33 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #66 fused_nn_bias_add_4: 15.291 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #67 fused_nn_relu_4: 7.7204 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #68 fused_nn_conv2d_3: 936.618 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #69 fused_nn_bias_add_3: 54.8879 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #70 fused_nn_relu_3: 34.8413 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #71 fused_nn_conv2d_20: 7255.78 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #72 fused_nn_bias_add_31: 79.2314 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #73 fused_nn_relu_31: 34.9171 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #74 fused_concatenate_1: 141.663 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #75 fused_nn_max_pool2d: 183.751 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #76 fused_nn_conv2d_2: 483.889 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #77 fused_nn_bias_add_2: 6.1409 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #78 fused_nn_relu_2: 4.0696 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #79 fused_nn_conv2d_1: 225.58 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #80 fused_nn_bias_add_1: 17.4955 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #81 fused_nn_relu_1: 7.1237 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #82 fused_nn_conv2d_21: 1616.36 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #83 fused_nn_bias_add_114: 16.0964 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #84 fused_nn_relu_114: 7.1654 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #85 fused_concatenate: 28.6237 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #86 fused_nn_conv2d: 6486.47 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #87 fused_nn_bias_add: 70.8981 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #88 fused_nn_relu: 60.2501 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #89 fused_nn_avg_pool2d: 81.3667 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #90 fused_nn_batch_flatten: 3.0223 us/iter
+[07:15:45] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #91 fused_nn_softmax: 24.4757 us/iter
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 512, 13, 13, 'float32'), (1000, 512, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 64, 13, 13, 'float32'), (256, 64, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 512, 13, 13, 'float32'), (64, 512, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 64, 27, 27, 'float32'), (256, 64, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 384, 27, 27, 'float32'), (64, 384, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 48, 27, 27, 'float32'), (192, 48, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 384, 27, 27, 'float32'), (48, 384, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 256, 27, 27, 'float32'), (48, 256, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 32, 27, 27, 'float32'), (128, 32, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 256, 27, 27, 'float32'), (32, 256, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 32, 54, 54, 'float32'), (128, 32, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 128, 54, 54, 'float32'), (32, 128, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 16, 54, 54, 'float32'), (64, 16, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 128, 54, 54, 'float32'), (16, 128, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 96, 54, 54, 'float32'), (16, 96, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 3, 224, 224, 'float32'), (96, 3, 7, 7, 'float32'), (2, 2), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 16, 54, 54, 'float32'), (64, 16, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 32, 54, 54, 'float32'), (128, 32, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 32, 27, 27, 'float32'), (128, 32, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 48, 27, 27, 'float32'), (192, 48, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 64, 27, 27, 'float32'), (256, 64, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=llvm, workload=('conv2d', (1, 64, 13, 13, 'float32'), (256, 64, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:93: Iteration: 0
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #0 fused_nn_conv2d_add_nn_relu_15: 12580.3 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #1 fused_nn_max_pool2d_2: 617.106 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #2 fused_nn_conv2d_add_nn_relu_14: 546.389 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #3 fused_nn_conv2d_add_nn_relu_12: 400.032 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #4 fused_nn_conv2d_add_nn_relu_16: 1870.46 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #5 fused_concatenate_5: 135.118 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #6 fused_nn_conv2d_add_nn_relu_13: 692.898 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #7 fused_nn_conv2d_add_nn_relu_121: 400.757 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #8 fused_nn_conv2d_add_nn_relu_161: 1860.33 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #9 fused_concatenate_51: 121.125 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #10 fused_nn_conv2d_add_nn_relu_11: 1249.99 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #11 fused_nn_conv2d_add_nn_relu_10: 1327.55 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #12 fused_nn_conv2d_add_nn_relu_17: 7232.36 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #13 fused_concatenate_4: 319.931 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #14 fused_nn_max_pool2d_1: 440.475 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #15 fused_nn_conv2d_add_nn_relu_9: 552.78 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #16 fused_nn_conv2d_add_nn_relu_8: 258.644 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #17 fused_nn_conv2d_add_nn_relu_18: 1851.6 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #18 fused_concatenate_3: 60.3946 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #19 fused_nn_conv2d_add_nn_relu_7: 677.113 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #20 fused_nn_conv2d_add_nn_relu_5: 531.818 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #21 fused_nn_conv2d_add_nn_relu_19: 4106.7 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #22 fused_concatenate_2: 108.621 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #23 fused_nn_conv2d_add_nn_relu_6: 1185.7 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #24 fused_nn_conv2d_add_nn_relu_51: 521.417 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #25 fused_nn_conv2d_add_nn_relu_191: 4112.54 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #26 fused_concatenate_21: 116.7 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #27 fused_nn_conv2d_add_nn_relu_4: 1430.58 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #28 fused_nn_conv2d_add_nn_relu_3: 903.13 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #29 fused_nn_conv2d_add_nn_relu_20: 7223.29 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #30 fused_concatenate_1: 167.742 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #31 fused_nn_max_pool2d: 186.236 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #32 fused_nn_conv2d_add_nn_relu_2: 480.467 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #33 fused_nn_conv2d_add_nn_relu_1: 213.363 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #34 fused_nn_conv2d_add_nn_relu_21: 1651.94 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #35 fused_concatenate: 24.5928 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #36 fused_nn_conv2d_add_nn_relu: 6390.71 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #37 fused_nn_avg_pool2d: 87.5475 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #38 fused_nn_batch_flatten: 2.9739 us/iter
+[07:16:00] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #39 fused_nn_softmax: 24.5813 us/iter
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 512, 13, 13, 'float32'), (1000, 512, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 64, 13, 13, 'float32'), (256, 64, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 512, 13, 13, 'float32'), (64, 512, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 64, 27, 27, 'float32'), (256, 64, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 384, 27, 27, 'float32'), (64, 384, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 48, 27, 27, 'float32'), (192, 48, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 384, 27, 27, 'float32'), (48, 384, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 256, 27, 27, 'float32'), (48, 256, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 32, 27, 27, 'float32'), (128, 32, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 256, 27, 27, 'float32'), (32, 256, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 32, 54, 54, 'float32'), (128, 32, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 128, 54, 54, 'float32'), (32, 128, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 16, 54, 54, 'float32'), (64, 16, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 128, 54, 54, 'float32'), (16, 128, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 96, 54, 54, 'float32'), (16, 96, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 3, 224, 224, 'float32'), (96, 3, 7, 7, 'float32'), (2, 2), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 16, 54, 54, 'float32'), (64, 16, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 32, 54, 54, 'float32'), (128, 32, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 32, 27, 27, 'float32'), (128, 32, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 48, 27, 27, 'float32'), (192, 48, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 64, 27, 27, 'float32'), (256, 64, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 64, 13, 13, 'float32'), (256, 64, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:93: Iteration: 0
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #0 fused_nn_conv2d_15: 35229.6 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #1 fused_nn_bias_add_13: 109.976 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #2 fused_nn_relu_13: 79.0177 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #3 fused_nn_max_pool2d_2: 63.8674 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #4 fused_nn_conv2d_14: 70.2699 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #5 fused_nn_bias_add_12: 21.0009 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #6 fused_nn_relu_12: 18.8882 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #7 fused_nn_conv2d_12: 94.2876 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #8 fused_nn_bias_add_11: 28.5205 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #9 fused_nn_relu_11: 24.2813 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #10 fused_nn_conv2d_16: 118.849 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #11 fused_nn_bias_add_111: 26.2119 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #12 fused_nn_relu_111: 22.7601 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #13 fused_concatenate_5: 38.9029 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #14 fused_nn_conv2d_13: 90.9561 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #15 fused_nn_bias_add_121: 19.4041 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #16 fused_nn_relu_121: 17.3819 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #17 fused_nn_conv2d_121: 89.9081 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #18 fused_nn_bias_add_112: 25.9658 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #19 fused_nn_relu_112: 22.6699 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #20 fused_nn_conv2d_161: 116.692 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #21 fused_nn_bias_add_113: 26.1687 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #22 fused_nn_relu_113: 21.8988 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #23 fused_concatenate_51: 36.7577 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #24 fused_nn_conv2d_11: 127.944 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #25 fused_nn_bias_add_10: 24.316 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #26 fused_nn_relu_10: 20.2113 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #27 fused_nn_conv2d_10: 165.98 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #28 fused_nn_bias_add_9: 42.3878 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #29 fused_nn_relu_9: 39.5273 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #30 fused_nn_conv2d_17: 263.785 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #31 fused_nn_bias_add_91: 40.1556 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #32 fused_nn_relu_91: 38.5095 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #33 fused_concatenate_4: 63.9475 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #34 fused_nn_max_pool2d_1: 76.3501 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #35 fused_nn_conv2d_9: 159.727 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #36 fused_nn_bias_add_8: 19.2979 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #37 fused_nn_relu_8: 17.3168 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #38 fused_nn_conv2d_8: 59.9314 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #39 fused_nn_bias_add_7: 22.9773 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #40 fused_nn_relu_7: 20.3201 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #41 fused_nn_conv2d_18: 191.003 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #42 fused_nn_bias_add_71: 20.7008 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #43 fused_nn_relu_71: 18.3555 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #44 fused_concatenate_3: 25.8626 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #45 fused_nn_conv2d_7: 186.383 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #46 fused_nn_bias_add_6: 20.3354 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #47 fused_nn_relu_6: 18.3344 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #48 fused_nn_conv2d_5: 96.9253 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #49 fused_nn_bias_add_5: 26.5922 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #50 fused_nn_relu_5: 22.3594 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #51 fused_nn_conv2d_19: 414.985 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #52 fused_nn_bias_add_51: 24.4704 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #53 fused_nn_relu_51: 20.2413 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #54 fused_concatenate_2: 35.2189 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #55 fused_nn_conv2d_6: 211.939 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #56 fused_nn_bias_add_61: 18.936 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #57 fused_nn_relu_61: 16.1787 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #58 fused_nn_conv2d_51: 93.5241 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #59 fused_nn_bias_add_52: 23.845 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #60 fused_nn_relu_52: 20.7895 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #61 fused_nn_conv2d_191: 412.519 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #62 fused_nn_bias_add_53: 23.8896 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #63 fused_nn_relu_53: 20.3041 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #64 fused_concatenate_21: 33.7526 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #65 fused_nn_conv2d_4: 451.545 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #66 fused_nn_bias_add_4: 21.3351 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #67 fused_nn_relu_4: 18.1738 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #68 fused_nn_conv2d_3: 105.044 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #69 fused_nn_bias_add_3: 28.7098 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #70 fused_nn_relu_3: 24.2582 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #71 fused_nn_conv2d_20: 432.275 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #72 fused_nn_bias_add_31: 27.8691 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #73 fused_nn_relu_31: 22.3583 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #74 fused_concatenate_1: 39.0932 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #75 fused_nn_max_pool2d: 31.7641 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #76 fused_nn_conv2d_2: 409.551 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #77 fused_nn_bias_add_2: 21.4682 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #78 fused_nn_relu_2: 17.2227 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #79 fused_nn_conv2d_1: 217.705 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #80 fused_nn_bias_add_1: 21.1549 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #81 fused_nn_relu_1: 18.1614 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #82 fused_nn_conv2d_21: 760.304 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #83 fused_nn_bias_add_114: 20.6588 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #84 fused_nn_relu_114: 17.2865 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #85 fused_concatenate: 21.3308 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #86 fused_nn_conv2d: 5692.94 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #87 fused_nn_bias_add: 45.2216 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #88 fused_nn_relu: 25.1527 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #89 fused_nn_avg_pool2d: 98.5461 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #90 fused_nn_batch_flatten: 17.882 us/iter
+[07:16:18] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #91 fused_nn_softmax: 108.862 us/iter
+
+Segmentation fault: 11
+
+Stack trace returned 10 entries:
+[bt] (0) /home/ubuntu/anaconda3/envs/amazonei_mxnet_p36/lib/python3.6/site-packages/mxnet/libmxnet.so(dmlc::StackTrace()+0x44) [0x7fc67bbbb494]
+[bt] (1) /home/ubuntu/anaconda3/envs/amazonei_mxnet_p36/lib/python3.6/site-packages/mxnet/libmxnet.so(+0x39c1b36) [0x7fc67ef17b36]
+[bt] (2) /lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7fc68ed764b0]
+[bt] (3) /usr/local/cuda-10.0/lib64/libcudart.so.10.0(+0x1d9fe) [0x7fc6204bd9fe]
+[bt] (4) /usr/local/cuda-10.0/lib64/libcudart.so.10.0(+0x2296b) [0x7fc6204c296b]
+[bt] (5) /usr/local/cuda-10.0/lib64/libcudart.so.10.0(cudaSetDevice+0x47) [0x7fc6204ea087]
+[bt] (6) /home/ubuntu/tvm/build/libtvm.so(tvm::runtime::CUDADeviceAPI::FreeDataSpace(DLContext, void*)+0x31) [0x7fc6230c07c1]
+[bt] (7) /home/ubuntu/tvm/build/libtvm.so(tvm::runtime::WorkspacePool::Pool::Release(DLContext, tvm::runtime::DeviceAPI*)+0x79e) [0x7fc62308496e]
+[bt] (8) /home/ubuntu/tvm/build/libtvm.so(tvm::runtime::WorkspacePool::~WorkspacePool()+0x3f) [0x7fc623082ecf]
+[bt] (9) /home/ubuntu/anaconda3/envs/amazonei_mxnet_p36/bin/../lib/libstdc++.so.6(+0x92ccf) [0x7fc66f206ccf]
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 512, 13, 13, 'float32'), (1000, 512, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 64, 13, 13, 'float32'), (256, 64, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 512, 13, 13, 'float32'), (64, 512, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 64, 27, 27, 'float32'), (256, 64, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 384, 27, 27, 'float32'), (64, 384, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 48, 27, 27, 'float32'), (192, 48, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 384, 27, 27, 'float32'), (48, 384, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 256, 27, 27, 'float32'), (48, 256, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 32, 27, 27, 'float32'), (128, 32, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 256, 27, 27, 'float32'), (32, 256, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 32, 54, 54, 'float32'), (128, 32, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 128, 54, 54, 'float32'), (32, 128, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 16, 54, 54, 'float32'), (64, 16, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 128, 54, 54, 'float32'), (16, 128, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 96, 54, 54, 'float32'), (16, 96, 1, 1, 'float32'), (1, 1), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 3, 224, 224, 'float32'), (96, 3, 7, 7, 'float32'), (2, 2), (0, 0), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 16, 54, 54, 'float32'), (64, 16, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 32, 54, 54, 'float32'), (128, 32, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 32, 27, 27, 'float32'), (128, 32, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 48, 27, 27, 'float32'), (192, 48, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 64, 27, 27, 'float32'), (256, 64, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+WARNING:autotvm:Cannot find config for target=cuda, workload=('conv2d', (1, 64, 13, 13, 'float32'), (256, 64, 3, 3, 'float32'), (1, 1), (1, 1), (1, 1), 'NCHW', 'float32'). A fallback configuration is used, which may bring great performance regression.
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:93: Iteration: 0
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #0 fused_nn_conv2d_add_nn_relu_15: 35721.3 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #1 fused_nn_max_pool2d_2: 79.6068 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #2 fused_nn_conv2d_add_nn_relu_14: 72.1187 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #3 fused_nn_conv2d_add_nn_relu_12: 101.292 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #4 fused_nn_conv2d_add_nn_relu_16: 123.145 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #5 fused_concatenate_5: 40.1672 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #6 fused_nn_conv2d_add_nn_relu_13: 94.3077 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #7 fused_nn_conv2d_add_nn_relu_121: 100.78 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #8 fused_nn_conv2d_add_nn_relu_161: 118.136 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #9 fused_concatenate_51: 38.3324 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #10 fused_nn_conv2d_add_nn_relu_11: 132.063 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #11 fused_nn_conv2d_add_nn_relu_10: 171.316 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #12 fused_nn_conv2d_add_nn_relu_17: 274.296 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #13 fused_concatenate_4: 65.9804 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #14 fused_nn_max_pool2d_1: 77.2505 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #15 fused_nn_conv2d_add_nn_relu_9: 164.423 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #16 fused_nn_conv2d_add_nn_relu_8: 61.5357 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #17 fused_nn_conv2d_add_nn_relu_18: 197.765 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #18 fused_concatenate_3: 26.7793 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #19 fused_nn_conv2d_add_nn_relu_7: 193.698 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #20 fused_nn_conv2d_add_nn_relu_5: 100.745 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #21 fused_nn_conv2d_add_nn_relu_19: 428.161 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #22 fused_concatenate_2: 36.3146 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #23 fused_nn_conv2d_add_nn_relu_6: 219.488 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #24 fused_nn_conv2d_add_nn_relu_51: 98.2026 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #25 fused_nn_conv2d_add_nn_relu_191: 425.412 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #26 fused_concatenate_21: 34.2834 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #27 fused_nn_conv2d_add_nn_relu_4: 467.628 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #28 fused_nn_conv2d_add_nn_relu_3: 111.04 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #29 fused_nn_conv2d_add_nn_relu_20: 445.674 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #30 fused_concatenate_1: 41.2238 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #31 fused_nn_max_pool2d: 32.4216 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #32 fused_nn_conv2d_add_nn_relu_2: 430.856 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #33 fused_nn_conv2d_add_nn_relu_1: 237.272 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #34 fused_nn_conv2d_add_nn_relu_21: 783.778 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #35 fused_concatenate: 22.8202 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #36 fused_nn_conv2d_add_nn_relu: 5638.85 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #37 fused_nn_avg_pool2d: 122.31 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #38 fused_nn_batch_flatten: 17.9561 us/iter
+[07:16:35] /home/ubuntu/tvm/src/runtime/graph/debug/graph_runtime_debug.cc:98: Op #39 fused_nn_softmax: 110.412 us/iter
+
+Segmentation fault: 11
+
+Stack trace returned 10 entries:
+[bt] (0) /home/ubuntu/anaconda3/envs/amazonei_mxnet_p36/lib/python3.6/site-packages/mxnet/libmxnet.so(dmlc::StackTrace()+0x44) [0x7feab46fb494]
+[bt] (1) /home/ubuntu/anaconda3/envs/amazonei_mxnet_p36/lib/python3.6/site-packages/mxnet/libmxnet.so(+0x39c1b36) [0x7feab7a57b36]
+[bt] (2) /lib/x86_64-linux-gnu/libc.so.6(+0x354b0) [0x7feac78b64b0]
+[bt] (3) /usr/local/cuda-10.0/lib64/libcudart.so.10.0(+0x1d9fe) [0x7fea58fb99fe]
+[bt] (4) /usr/local/cuda-10.0/lib64/libcudart.so.10.0(+0x2296b) [0x7fea58fbe96b]
+[bt] (5) /usr/local/cuda-10.0/lib64/libcudart.so.10.0(cudaSetDevice+0x47) [0x7fea58fe6087]
+[bt] (6) /home/ubuntu/tvm/build/libtvm.so(tvm::runtime::CUDADeviceAPI::FreeDataSpace(DLContext, void*)+0x31) [0x7fea5bbbc7c1]
+[bt] (7) /home/ubuntu/tvm/build/libtvm.so(tvm::runtime::WorkspacePool::Pool::Release(DLContext, tvm::runtime::DeviceAPI*)+0x79e) [0x7fea5bb8096e]
+[bt] (8) /home/ubuntu/tvm/build/libtvm.so(tvm::runtime::WorkspacePool::~WorkspacePool()+0x3f) [0x7fea5bb7eecf]
+[bt] (9) /home/ubuntu/anaconda3/envs/amazonei_mxnet_p36/bin/../lib/libstdc++.so.6(+0x92ccf) [0x7feaa7d46ccf]

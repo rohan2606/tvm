@@ -20,6 +20,7 @@ import json
 import os
 import numpy as np
 import tvm
+from collections import defaultdict
 
 GRAPH_DUMP_FILE_NAME = '_tvmdbg_graph_dump.json'
 CHROME_TRACE_FILE_NAME = "_tvmdbg_execution_trace.json"
@@ -207,27 +208,52 @@ class DebugResult(object):
     def display_debug_result(self):
         """Displays the debugger result"
         """
-        header = ["Node Name", "Ops", "Time(us)", "Time(%)", "Shape", "Inputs", "Outputs"]
-        lines = ["---------", "---", "--------", "-------", "-----", "------", "-------"]
+        header = ["Ops", "Time(us)"]
+        lines = ["------", "------"]
         eid = 0
-        data = []
+        data = defaultdict(list)
         total_time = sum(time[0] for time in self._time_list)
         for node, time in zip(self._nodes_list, self._time_list):
             num_outputs = self.get_graph_node_output_num(node)
             for j in range(num_outputs):
-                op = node['op']
                 if node['op'] == 'param':
                     eid += 1
                     continue
                 name = node['name']
                 shape = str(self._output_tensor_list[eid].shape)
+
+
+                shape_array = list(self._output_tensor_list[eid].shape)
+                data_size = 1
+                for item in shape_array:
+                    data_size *= int(item)
+
+                op_list = node['op'].split('_')
+                if op_list[-1].isdigit():
+                    op_list = op_list[:-1]
+                op_list.append(str(data_size))
+                
+
+                no_transpose_list = []
+                for op in op_list:
+                   if op != 'nothing!!': #'transpose':
+                       no_transpose_list.append(op)
+
+                op = '_'.join(no_transpose_list)
+
                 time_us = round(time[0] * 1000000, 3)
-                time_percent = round(((time[0] / total_time) * 100), 3)
-                inputs = str(node['attrs']['num_inputs'])
-                outputs = str(node['attrs']['num_outputs'])
-                node_data = [name, op, time_us, time_percent, shape, inputs, outputs]
-                data.append(node_data)
+                node_data = [op, time_us, data_size]
+                data[op].append(node_data)
                 eid += 1
+
+        op_filtered_data = []
+        for op in data.keys():
+            op_filtered_data.append(data[op][0])
+            # The reason for choosing the 0-th elelement is because this probabilistically equal to choosing a random elelemt.
+            # If it was taken as average that would mean some ops were having more number of runs to get mean than other
+        data = op_filtered_data
+        data.sort(key=lambda x: x[0], reverse=True)
+        data.sort(key=lambda x: x[2], reverse=True)
         fmt = ""
         for i, _ in enumerate(header):
             max_len = len(header[i])

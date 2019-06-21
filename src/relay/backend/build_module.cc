@@ -303,9 +303,9 @@ class RelayBuildModule : public runtime::ModuleNode {
     pass_seqs.push_back(transform::CanonicalizeOps());
 
     // Alter layout transformation is only applied to homogeneous execution yet.
-    if (targets.size() == 1) {
-      pass_seqs.push_back(transform::AlterOpLayout());
-    }
+    //if (targets.size() == 1) {
+    //  pass_seqs.push_back(transform::AlterOpLayout());
+    // }
     pass_seqs.push_back(transform::FoldConstant());
 
     // Create a sequential pass and perform optimizations.
