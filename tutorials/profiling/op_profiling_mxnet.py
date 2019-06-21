@@ -33,9 +33,12 @@ import sys
 
 from utils import get_image, get_opt_params
 import run_mxnet_on_tvm
+import json
 
+with open('cv_models.json','r') as f:
+    js = json.load(f)
 
-model_name = 'resnet18_v1'
+model_name = js["models"][19]
 
 ##############################################################
 # Get the profiling hyper-parameters like target hardware, ctx and optimization level from input

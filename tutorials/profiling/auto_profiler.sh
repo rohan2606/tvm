@@ -1,6 +1,7 @@
 rm logs/error logs/*p3*.out
 
 
+source activate mxnet_p36
 python3 scripts/gpu_test.py
 echo "running llvm unfused"
 python3 op_profiling_mxnet.py 'llvm' 'unfused' > logs/p3_CPU_op_unfused.out 2>>logs/error
