@@ -232,7 +232,7 @@ class DebugResult(object):
                 if op_list[-1].isdigit():
                     op_list = op_list[:-1]
                 op_list.append(str(data_size))
-                
+
 
                 no_transpose_list = []
                 for op in op_list:
@@ -246,26 +246,34 @@ class DebugResult(object):
                 data[op].append(node_data)
                 eid += 1
 
-        op_filtered_data = []
+
         for op in data.keys():
-            op_filtered_data.append(data[op][0])
+            data[op] = data[op][0]
             # The reason for choosing the 0-th elelement is because this probabilistically equal to choosing a random elelemt.
             # If it was taken as average that would mean some ops were having more number of runs to get mean than other
-        data = op_filtered_data
-        data.sort(key=lambda x: x[0], reverse=True)
-        data.sort(key=lambda x: x[2], reverse=True)
+
+        op_time_dict = data
+
+        op_filtered_data = []
+        for op in data.keys():
+            op_filtered_data.append(data[op])
+
+        op_filtered_data.sort(key=lambda x: x[0], reverse=True)
+        op_filtered_data.sort(key=lambda x: x[2], reverse=True)
         fmt = ""
         for i, _ in enumerate(header):
             max_len = len(header[i])
-            for j, _ in enumerate(data):
-                item_len = len(str(data[j][i]))
+            for j, _ in enumerate(op_filtered_data):
+                item_len = len(str(op_filtered_data[j][i]))
                 if item_len > max_len:
                     max_len = item_len
             fmt = fmt + "{:<" + str(max_len + 2) + "}"
         print(fmt.format(*header))
         print(fmt.format(*lines))
-        for row in data:
+        for row in op_filtered_data:
             print(fmt.format(*row))
+
+        return op_time_dict
 
 def save_tensors(params):
     """Save parameter dictionary to binary bytes.

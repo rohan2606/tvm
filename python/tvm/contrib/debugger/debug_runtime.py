@@ -247,7 +247,9 @@ class GraphModuleDebug(graph_runtime.GraphModule):
         # Step 3. Dump the Chrome trace to the dump folder
         self.debug_datum.dump_chrome_trace()
         # Step 4. Display the collected information
-        self.debug_datum.display_debug_result()
+        op_time_dict = self.debug_datum.display_debug_result()
+
+        return op_time_dict
 
     def run_individual(self, number, repeat=1, min_repeat_ms=0):
         ret = self._run_individual(number, repeat, min_repeat_ms)

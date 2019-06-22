@@ -95,23 +95,26 @@ def execute(graph, lib, params, ctx, x, synset):
     m.set_input('data', tvm.nd.array(x.astype(dtype)))
     m.set_input(**params)
     # execute
-    m.run()
+    op_time_dict = m.run()
     # get outputs
     tvm_output = m.get_output(0)
     top1 = np.argmax(tvm_output.asnumpy()[0])
     print('TVM prediction top-1:', top1, synset[top1])
 
+    return op_time_dict
 
 
-def save_and_check_load(block, name):
+
+def save_and_check_load(block, model_name):
+    model_name = "logs/models/" + model_name
     mx_sym, args, auxs = block2symbol(block)
     # usually we would save/load it as checkpoint
-    mx.model.save_checkpoint(name , 0, mx_sym, args, auxs)
+    mx.model.save_checkpoint(model_name , 0, mx_sym, args, auxs)
     # there are 'resnet18_v1-0000.params' and 'resnet18_v1-symbol.json' on disk
 
     ######################################################################
     # for a normal mxnet model, we start from here
-    mx_sym, args, auxs = mx.model.load_checkpoint(name , 0)
+    mx_sym, args, auxs = mx.model.load_checkpoint(model_name , 0)
     # now we use the same API to get Relay computation graph
 
 

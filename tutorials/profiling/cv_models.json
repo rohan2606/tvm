@@ -6,7 +6,6 @@
         "densenet161",
         "densenet169",
         "densenet201",
-        "inceptionv3",
         "mobilenet0.25",
         "mobilenet0.5",
         "mobilenet0.75",
@@ -35,6 +34,9 @@
         "vgg16_bn",
         "vgg19",
         "vgg19_bn"
-        ]
+      ],
+  "unused_models":[
+    "inceptionv3"
+  ]
 
 }
