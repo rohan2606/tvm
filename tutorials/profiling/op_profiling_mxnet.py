@@ -34,6 +34,7 @@ import sys
 from utils import get_image, get_opt_params
 import run_mxnet_on_tvm
 import json
+from collections import defaultdict
 
 ##############################################################
 # Get the profiling hyper-parameters like target hardware, ctx and optimization level from input
@@ -51,17 +52,22 @@ with open('cv_models.json','r') as f:
 ##############################################################
 # Get the runtime of the models
 
-op_dict_mxnet = dict()
+op_dict_mxnet = defaultdict(list)
 
+
+# cum_dist_of_new_ops = []
 for j, model_name in enumerate(js["models"]):
+
+
     print("running on model :: " + model_name)
     block = run_mxnet_on_tvm.get_mxnet_model(model_name)
     graph, lib, params = run_mxnet_on_tvm.compile(x, block, target, input_opt_level)
     op_time_dict = run_mxnet_on_tvm.execute(graph, lib, params, ctx, x, synset)
 
-    op_dict_mxnet.update(op_time_dict)
+    for op in op_time_dict:
+        op_dict_mxnet[op].append(op_time_dict[op])
 
     # run_mxnet_on_tvm.save_and_check_load(block, model_name)
 
-with open('logs/final_runtime_dict.json') as f:
-    json.dump(f, op_dict_mxnet, indent=2)
+with open('logs/final_runtime_dict.json', 'w') as f:
+    json.dump(op_dict_mxnet, f, indent=2)

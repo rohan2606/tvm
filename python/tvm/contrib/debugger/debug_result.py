@@ -231,15 +231,11 @@ class DebugResult(object):
                 op_list = node['op'].split('_')
                 if op_list[-1].isdigit():
                     op_list = op_list[:-1]
-                op_list.append(str(data_size))
 
+                # op_list.append(str(data_size))
+                op_list.append(str(shape_array))
 
-                no_transpose_list = []
-                for op in op_list:
-                   if op != 'nothing!!': #'transpose':
-                       no_transpose_list.append(op)
-
-                op = '_'.join(no_transpose_list)
+                op = '_'.join(op_list)
 
                 time_us = round(time[0] * 1000000, 3)
                 node_data = [op, time_us, data_size]
