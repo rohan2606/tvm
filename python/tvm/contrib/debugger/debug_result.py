@@ -80,9 +80,16 @@ class DebugResult(object):
         for i in range(nodes_len):
             node = self._nodes_list[i]
             input_list = []
+            input_shape_list = []
+
             for input_node in node['inputs']:
                 input_list.append(self._nodes_list[input_node[0]]['name'])
+                input_shape_list.append(self._nodes_list[input_node[0]]['shape'])
+
+
             node['inputs'] = input_list
+            node['input_shape_list'] = input_shape_list
+
             dtype = str("type: " + self._dtype_list[1][i])
             if 'attrs' not in node:
                 node['attrs'] = {}
@@ -210,7 +217,7 @@ class DebugResult(object):
         """
         header = ["Ops", "Time(us)"]
         lines = ["------", "------"]
-        eid = 0
+        eid = 0 # probably better to put it in enumerate
         data = defaultdict(list)
         total_time = sum(time[0] for time in self._time_list)
         for node, time in zip(self._nodes_list, self._time_list):
@@ -220,10 +227,13 @@ class DebugResult(object):
                     eid += 1
                     continue
                 name = node['name']
+
                 shape = str(self._output_tensor_list[eid].shape)
-
-
                 shape_array = list(self._output_tensor_list[eid].shape)
+
+                # print(node['input_shape_list'])
+                # print(self._output_tensor_list[eid].shape)
+
                 data_size = 1
                 for item in shape_array:
                     data_size *= int(item)
@@ -232,7 +242,8 @@ class DebugResult(object):
                 if op_list[-1].isdigit():
                     op_list = op_list[:-1]
 
-                # op_list.append(str(data_size))
+
+                op_list.append(str(node['input_shape_list']))
                 op_list.append(str(shape_array))
 
                 op = '_'.join(op_list)

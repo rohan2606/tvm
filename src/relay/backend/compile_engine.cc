@@ -230,12 +230,86 @@ class ScheduleGetter :
     }
     // Set the name to `__copy`. It will be detected in graph runtime to perform
     // data copy across devices.
+    // Op op = Downcast<Op>(call_node->op);
+    bool is_conv_op = op.same_as(Op::Get("nn.conv2d"));
+    LOG(INFO) << std::to_string(is_copy_op);
+
+
     if (is_copy_op) {
       readable_name_stream_.str(std::string());
       readable_name_stream_ << "__copy";
     } else {
       readable_name_stream_ << '_' << op->name;
     }
+
+    if (is_conv_op) {
+       std::string suffix = "_";
+       auto attrs = call_node->attrs;
+
+
+       if (auto conv2d_attrs = attrs.as<Conv2DAttrs>()) {
+             auto strides = conv2d_attrs->strides;
+             suffix += "_strides_";
+             for (auto s : strides) {
+               if (auto int_s = s.as<IntImm>()) {
+                 // LOG(INFO) << "AAA" << int_s->value;
+                 suffix += std::to_string(int_s->value) + "_";
+
+               }
+             }
+             // LOG(INFO) << "Strides = " << strides;
+
+             auto kernel_size = conv2d_attrs->kernel_size;
+             suffix += "_kernel_size_";
+             for (auto s : kernel_size) {
+               if (auto int_s = s.as<IntImm>()) {
+                 // LOG(INFO) << "BBB" << int_s->value;
+                 suffix += std::to_string(int_s->value) + "_";
+               }
+             }
+             // LOG(INFO) << "Kernel Size = " << kernel_size;
+
+             auto padding = conv2d_attrs->padding;
+             suffix += "_padding_";
+             for (auto s : padding) {
+               if (auto int_s = s.as<IntImm>()) {
+                 // LOG(INFO) << "CCC" << int_s->value;
+                 suffix += std::to_string(int_s->value) + "_";
+
+               }
+             }
+
+              auto dilation = conv2d_attrs->dilation;
+              suffix += "_dilation_";
+              for (auto s : dilation) {
+                if (auto int_s = s.as<IntImm>()) {
+                  // LOG(INFO) << "CCC" << int_s->value;
+                  suffix += std::to_string(int_s->value) + "_";
+                }
+              }
+
+             int groups = conv2d_attrs->groups;
+             suffix += "_groups_";
+             suffix += std::to_string(groups) + "_";
+
+             std::string layout = conv2d_attrs->data_layout + conv2d_attrs->kernel_layout + conv2d_attrs->out_layout;
+             suffix += "_layout_";
+             suffix += layout;
+
+             int channels = conv2d_attrs->channels.as<IntImm>()->value;
+             suffix += "_channels_";
+             suffix += std::to_string(channels) + "_";
+
+             std::string data_type = std::to_string(conv2d_attrs->out_dtype);
+             suffix += "_datatype_";
+             suffix += std::to_string(data_type) + "_";
+
+             // LOG(INFO) << "Dilation = " << dilation;
+        }
+        readable_name_stream_ << suffix ;
+
+      }
+
     return outputs;
   }
 
