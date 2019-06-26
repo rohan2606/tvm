@@ -231,13 +231,13 @@ class DebugResult(object):
                 shape = str(self._output_tensor_list[eid].shape)
                 shape_array = list(self._output_tensor_list[eid].shape)
 
-                # print(node['input_shape_list'])
-                # print(self._output_tensor_list[eid].shape)
 
                 data_size = 1
                 for item in shape_array:
                     data_size *= int(item)
 
+
+                # we can remove the last number which is just a random number added to op to give unq node name
                 op_list = node['op'].split('_')
                 if op_list[-1].isdigit():
                     op_list = op_list[:-1]

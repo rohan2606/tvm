@@ -55,3 +55,16 @@ def get_opt_params(sys_argv):
        sys.exit()
 
     return target, ctx, input_opt_level
+
+
+
+def get_statistic(arr):
+    np_arr = np.asarray(arr)
+    mean = np.mean(np_arr)
+    std = np.sqrt(np.var(np_arr))
+    coeff_of_var = std/mean
+    alarm = False
+    if (coeff_of_var > 0.1):
+        alarm = True
+
+    return {'mean':str(mean), 'var':str(std), 'coeff_of_var':str(coeff_of_var), 'alarm':alarm, 'values':[str(item) for item in arr]}

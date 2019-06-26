@@ -31,7 +31,7 @@ Rohan Mukherjee <https://github.com/rohan2606>
 
 import sys
 
-from utils import get_image, get_opt_params
+from utils import get_image, get_opt_params, get_statistic
 import run_mxnet_on_tvm
 import json
 from collections import defaultdict
@@ -65,9 +65,14 @@ for j, model_name in enumerate(js["models"]):
     op_time_dict = run_mxnet_on_tvm.execute(graph, lib, params, ctx, x, synset)
 
     for op in op_time_dict:
-        op_dict_mxnet[op].append(op_time_dict[op])
+        op_dict_mxnet[op].append(op_time_dict[op][1])
 
-    # run_mxnet_on_tvm.save_and_check_load(block, model_name)
 
-with open('logs/final_runtime_dict.json', 'w') as f:
-    json.dump(op_dict_mxnet, f, indent=2)
+
+for op in op_dict_mxnet.keys():
+    arr = op_dict_mxnet[op]
+    op_dict_mxnet[op] = get_statistic(arr)
+# run_mxnet_on_tvm.save_and_check_load(block, model_name)
+
+with open('logs/op_runtimes.json', 'w') as f:
+    json.dump({'op_runtimes':op_dict_mxnet}, f, indent=2)

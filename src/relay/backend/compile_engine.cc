@@ -292,17 +292,17 @@ class ScheduleGetter :
              suffix += "_groups_";
              suffix += std::to_string(groups) + "_";
 
-             std::string layout = conv2d_attrs->data_layout + conv2d_attrs->kernel_layout + conv2d_attrs->out_layout;
-             suffix += "_layout_";
-             suffix += layout;
-
-             int channels = conv2d_attrs->channels.as<IntImm>()->value;
-             suffix += "_channels_";
-             suffix += std::to_string(channels) + "_";
-
-             std::string data_type = std::to_string(conv2d_attrs->out_dtype);
-             suffix += "_datatype_";
-             suffix += std::to_string(data_type) + "_";
+             // std::string layout = conv2d_attrs->data_layout + conv2d_attrs->kernel_layout + conv2d_attrs->out_layout;
+             // suffix += "_layout_";
+             // suffix += layout;
+             //
+             // int channels = conv2d_attrs->channels.as<IntImm>()->value;
+             // suffix += "_channels_";
+             // suffix += std::to_string(channels) + "_";
+             //
+             // std::string data_type = std::to_string(conv2d_attrs->out_dtype);
+             // suffix += "_datatype_";
+             // suffix += std::to_string(data_type) + "_";
 
              // LOG(INFO) << "Dilation = " << dilation;
         }
