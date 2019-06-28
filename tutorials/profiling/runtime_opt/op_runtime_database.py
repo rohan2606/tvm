@@ -40,7 +40,7 @@ class OpRuntimeDatabase(object):
         self.json_db_file = log_dir + accelerator + '_' + fusion + '/' + db_json
 
         # bandwidth is assumed to be commutative and unq irrespective of target, source
-        self.bandwidth = 20.  # GBps or Bp(us)
+        self.bandwidth = 2000000000.  # practically 2 # GBps or Bp(us)
         return
 
     '''load database from JSON file'''
@@ -65,7 +65,7 @@ class OpRuntimeDatabase(object):
         if my_device == child_device:
             return 0.
         else:
-            return data_size / self.bandwidth
+            return data_size * 64 / self.bandwidth
 
     def assert_all_nodes_exist(self, _nodes_map):
         for _, node in _nodes_map.items():

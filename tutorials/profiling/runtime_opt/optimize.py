@@ -38,6 +38,9 @@ def optimize():
     _graph = GraphAnnotation()
     print(f"Starting at {_graph.annotations_} with function value {_graph.get_cost(_graph.annotations_)}")
 
+    base_case_all_gpu = [ (1+0*(annotation)) for annotation in _graph.annotations_]
+    print(f"Base Case of all GPUs at {base_case_all_gpu} with function value {_graph.get_cost(base_case_all_gpu)}")
+
     # Setup the optimization
     opt = simulated_annealing(_graph.annotations_)
     opt.steps = 100000

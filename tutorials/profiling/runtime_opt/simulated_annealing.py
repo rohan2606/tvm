@@ -43,6 +43,7 @@ class simulated_annealing(Annealer):
         # its current_state or annotation
         # curr = self.state[n]
 
+        # TODO : add type based contraints like data being bound to CPU only
         # new annotation
         self.state[n] = random.randint(0, len(self.annotation.devices) - 1)
 
