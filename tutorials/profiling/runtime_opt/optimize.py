@@ -52,4 +52,3 @@ def optimize():
 
 if __name__ == '__main__':
     annotation = optimize()
-    print(annotation)

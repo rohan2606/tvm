@@ -29,13 +29,18 @@ from functools import reduce
 
 class Node(object):
 
-    def __init__(self, val, shape, parents=None):
+    def __init__(self, name, _type, shape, parents=None):
 
         if parents is None:
             parents = list()
 
-        self.val = val
+        self.name = self.parse_name(name)
+        self.shape = shape
         self.data_size = reduce((lambda x, y: x * y), shape)  # multiply all elements in list
+
+
+        self.type = _type
+
         # self.data_size is in bytes
         self.parents = parents
         return
@@ -43,3 +48,40 @@ class Node(object):
     def make_parent_link(self, new_parent_node):
         self.parents.append(new_parent_node)
         return
+
+    def parse_name(self, name):
+        op_list = name.strip().split('_')
+        if op_list[-1].isdigit():
+            op_list = op_list[:-1]
+
+        return '_'.join(op_list)
+
+    def parse_type(self, type, name):
+        if type == 'tvm_op':
+            return type
+        elif type == 'null' and name == "data":
+            return "data"
+        elif type[0] == 'p' and type[1:].digit():
+            return "param"
+        else:
+            raise AttributeError
+
+
+    def update_name_with_shapes(self):
+        # Please make sure you have all your parent and shape information parsed already
+
+        input_shapes = []
+        for parent in self.parents:
+            input_shapes.append(parent.shape)
+
+        if len(input_shapes) > 0:
+            self.name += '_' + str(input_shapes)
+
+        output_shape = self.shape
+        self.name += '_' + str(output_shape)
+        return
+
+
+
+
+

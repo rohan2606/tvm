@@ -40,7 +40,7 @@ class OpRuntimeDatabase(object):
         self.json_db_file = log_dir + accelerator + '_' + fusion + '/' + db_json
 
         # bandwidth is assumed to be commutative and unq irrespective of target, source
-        self.bandwidth = 2.  # GBps or Bp(us)
+        self.bandwidth = 20.  # GBps or Bp(us)
         return
 
     '''load database from JSON file'''
@@ -50,20 +50,26 @@ class OpRuntimeDatabase(object):
 
         for item, val in js['op_runtimes'].items():
             # if item in op_nodes:
-            self.op_runtime_db[item] = val['mean']
+            self.op_runtime_db[item] = float(val['mean'])
 
         return
 
-    def get_op_runtime(self, op_name):
-        return self.op_runtime_db[op_name]
+    def get_op_runtime(self, op):
+        if op.type == 'tvm_op':
+            return self.op_runtime_db[op.name]
+        else:
+            return 0.
 
     ''' NOTE : communication time is commutative '''
     def get_communication_time(self, my_device, data_size, child_device):
         if my_device == child_device:
-            return 0.0
+            return 0.
         else:
             return data_size / self.bandwidth
 
-    def assert_all_nodes_exist(self, _nodes):
-        for node in _nodes:
-            assert (node in self.op_runtime_db)
+    def assert_all_nodes_exist(self, _nodes_map):
+        for _, node in _nodes_map.items():
+            if node.type == "tvm_op":
+                assert (node.name in self.op_runtime_db), node.name
+            else:
+                assert  (node.type == "null")

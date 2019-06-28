@@ -62,7 +62,7 @@ class GraphAnnotation(object):
 
         if DEBUG:
             for k in range(len(self.devices)):
-                self.op_runtimes[k].assert_all_nodes_exist(self.ir._nodes)
+                self.op_runtimes[k].assert_all_nodes_exist(self.ir._nodeId_to_node_map)
 
         # annotations start at all CPU, for device mapping id check top of the file
         num_nodes = len(self.ir._nodes)
@@ -94,9 +94,10 @@ class GraphAnnotation(object):
 
         run_time = 0.
         # General runtime O(Nodes)
-        for i, node in enumerate(self.ir._nodes):
-            device = annotation[i]  # self.get_device_in_annotation(node)
-            run_time += self.op_runtimes[device].get_op_runtime(node.name)
+        for node_id in range(len(self.ir._nodes)):
+            device = annotation[node_id]  # self.get_device_in_annotation(node)
+            node = self.ir._nodeId_to_node_map[node_id]
+            run_time += self.op_runtimes[device].get_op_runtime(node)
 
         return run_time
 
@@ -109,20 +110,23 @@ class GraphAnnotation(object):
         comm_time = 0.
         # General runtime O(Edge)
         for edge in self.ir._edges:
-            parent, child = edge[0]  , edge[1]
-            parent_device, child_device  = annotation[parent], annotation[child]
+            parent_id, child_id = edge[0], edge[1]
+            parent_node = self.ir._nodeId_to_node_map[parent_id]
+            parent_device, child_device = annotation[parent_id], annotation[child_id]
             # self.get_device_in_annotation(parent), self.get_device_in_annotation(child)
             # comm_time depends on what your parent device is
-            comm_time += self.op_runtimes[parent_device].get_communication_time(parent_device, parent.data_size, child_device)
+            comm_time += self.op_runtimes[parent_device].get_communication_time(parent_device, parent_node.data_size, child_device)
 
         # First Corner Case, if initial op in GPU
-        for node in self.ir._top_nodes:
-            device = annotation[node] # self.get_device_in_annotation(node)
+        for node_id in self.ir._top_nodes:
+            device = annotation[node_id] # self.get_device_in_annotation(node)
+            node = self.ir._nodeId_to_node_map[node_id]
             comm_time += self.op_runtimes[0].get_communication_time(0, node.data_size, device)
 
         # Second Corner Case, if final op in GPU
-        for node in self.ir._top_nodes:
-            device = annotation[node] # self.get_device_in_annotation(node)
+        for node_id in self.ir._top_nodes:
+            device = annotation[node_id] # self.get_device_in_annotation(node)
+            node = self.ir._nodeId_to_node_map[node_id]
             comm_time += self.op_runtimes[device].get_communication_time(device, node.data_size, 0)
 
         return comm_time

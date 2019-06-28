@@ -50,12 +50,14 @@ class IrTree(object):
         else:
             assert (DEBUG is False), 'debug mode not active in deployment mode'
 
-        assert type(graph) == dict, 'graph format mismatch'
+        assert type(graph) == dict, str(type(graph)) + 'graph format mismatch'
+
 
         # initialize empty containers repreenting the tree
         self._nodes = set()
+        self._nodeId_to_node_map = dict()
+
         self._edges = set()
-        self.symbolic_edges = set()
         self._leaf_nodes = set()
         self._top_nodes = set()
 
@@ -91,16 +93,19 @@ class IrTree(object):
         if DEBUG:
             print('Number of nodes in graph :: ' + str(len(graph['nodes'])))
 
-        for node_id, (node_vals, shape) in enumerate(zip(graph['nodes'], graph['shape'][1])):
+        for node_id, (node_vals, shape) in enumerate(zip(graph['nodes'], graph['attrs']['shape'][1])):
             # get the node vals
             # node_type is either a tvm_op or null
             # node_name is the unq key
             node_type = node_vals['op']
-            assert node_type is None or node_type == 'tvm_op', 'wrong type detected'
-            node_name = node_vals['name']
+            assert node_type == "null" or node_type == "tvm_op", str(type(node_type)) + ' , wrong type detected'
+
+
+            # node_vals["name"] in relay graph is non-uniq, however attrs not present in non tvm-op nodes
+            node_name = node_vals['attrs']['func_name'] if node_vals["op"] == "tvm_op" else node_vals['name']
             input_ids = node_vals['inputs']
 
-            _node = Node(node_name, shape)
+            _node = Node(node_name, node_type, shape)
             # add Node to the mapping dictionary
             node_map[node_id] = _node
 
@@ -113,6 +118,7 @@ class IrTree(object):
 
             # add to global list of nodes
             self._nodes.add(node_id)
+            self._nodeId_to_node_map[node_id] = _node
 
             # make symbolic links to parent
             for parent_id in input_ids:
@@ -121,8 +127,11 @@ class IrTree(object):
                 _node.make_parent_link(parent)
                 # self._edges.add((parent, child))
                 self._edges.add((parent_id, node_id))  # parent, child))
-                if parent in self._leaf_nodes:
+                if parent_id in self._leaf_nodes:
                     self._leaf_nodes.remove(parent_id)
+
+            # finally update your node name with shapes
+            _node.update_name_with_shapes()
 
         return
 
