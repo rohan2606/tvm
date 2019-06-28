@@ -26,26 +26,24 @@
 
 import json
 
-
 '''
 Loads data from a previously collected database of op runtimes for a particular device in a particular hardware
 
 ## # BUG: the current code loads op runtime database everytime, plus does it serially via JSON
 '''
-class op_timing_database(Object):
 
-    def __init__(self, logdir, accelerator, fusion, db_json):
+
+class OpRuntimeDatabase(object):
+
+    def __init__(self, log_dir, accelerator, fusion, db_json):
         self.op_runtime_db = dict()
-        self.json_db_file = logdir + accelerator + '_' + fusion + '/' + db_json
+        self.json_db_file = log_dir + accelerator + '_' + fusion + '/' + db_json
 
-        ## bandwidth is assumed to be commutative and unq irrespective of target, source
-        self.bandwidth = 2. # GBps or Bp(us)
+        # bandwidth is assumed to be commutative and unq irrespective of target, source
+        self.bandwidth = 2.  # GBps or Bp(us)
         return
 
-
-    '''
-    load database from JSON file
-    '''
+    '''load database from JSON file'''
     def create_database(self):
         with open(self.json_db_file) as f:
             js = json.load(f)
@@ -59,18 +57,13 @@ class op_timing_database(Object):
     def get_op_runtime(self, op_name):
         return self.op_runtime_db[op_name]
 
-
-    '''
-    NOTE : communication time is commutative
-    '''
+    ''' NOTE : communication time is commutative '''
     def get_communication_time(self, my_device, data_size, child_device):
-
         if my_device == child_device:
             return 0.0
         else:
-            return data_size/self.bandwidth
-
+            return data_size / self.bandwidth
 
     def assert_all_nodes_exist(self, _nodes):
         for node in _nodes:
-            assert(node in self.op_runtime_db)
+            assert (node in self.op_runtime_db)

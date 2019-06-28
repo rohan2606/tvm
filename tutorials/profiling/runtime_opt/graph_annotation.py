@@ -26,13 +26,13 @@ This is a simple optimization pass to run simulated annealing on Relay IR graphs
 A graph is considered composed of a bag of OpNodes
 
 """
+from ir_tree import IrTree
+from op_runtime_database import OpRuntimeDatabase
 
+
+global DEBUG
 DEBUG = True
 
-from ir_tree import ir_tree
-from op_timing_database import op_timing_database
-from scipy import optimize
-from hill_climbing import ir_graph_tuner
 
 '''
 ==================================== DEVICE to ID map =============================
@@ -46,28 +46,27 @@ more accelerators
 '''
 
 
-class graph_annotation(Object):
-
+class GraphAnnotation(object):
 
     def __init__(self, graph=None):
 
         # load the database
         self.devices = ['CPU', 'GPU']
         self.op_runtimes = [None] * len(self.devices)
-        for k, device in enumerate(len(self.devices)):
-            self.op_runtimes[k] = op_timing_database('../logs/', device, 'unfused')
+        for k, device in enumerate(self.devices):
+            self.op_runtimes[k] = OpRuntimeDatabase('../logs/', device, 'unfused', 'op_runtimes.json')
             self.op_runtimes[k].create_database()
 
         # op_nodes are entirely treated as a bag of edges, where the edge information is used for communication time
-        self.ir = ir_tree(graph)
+        self.ir = IrTree(graph)
 
         if DEBUG:
             for k in range(len(self.devices)):
-                self.op_runtimes[k].assert_all_nodes_exist(_nodes)
+                self.op_runtimes[k].assert_all_nodes_exist(self.ir._nodes)
 
         # annotations start at all CPU, for device mapping id check top of the file
-        num_nodes = len(ir._nodes)
-        self.annotations_ = [0 for i in range(num_nodes)]
+        num_nodes = len(self.ir._nodes)
+        self.annotations_ = [0 for _ in range(num_nodes)]
         return
 
 
@@ -94,48 +93,39 @@ class graph_annotation(Object):
     def get_op_cost(self, annotation):
 
         run_time = 0.
-
         # General runtime O(Nodes)
-        for node in enumerate(self.ir._nodes):
-            device = self.annotations_[i] #self.get_device_in_annotation(node)
+        for i, node in enumerate(self.ir._nodes):
+            device = annotation[i]  # self.get_device_in_annotation(node)
             run_time += self.op_runtimes[device].get_op_runtime(node.name)
 
         return run_time
 
     '''
-        Communication time is defined as the time required to transfer data in case of a device switch, plus two corner cases
-        start and end.
+        Communication time is defined as the time required to transfer data in case of a device switch, 
+        plus two corner cases for start and end.
     '''
     def get_comm_cost(self, annotation):
 
         comm_time = 0.
-
         # General runtime O(Edge)
         for edge in self.ir._edges:
-            parent, child = edge[0] , edge[1]
+            parent, child = edge[0]  , edge[1]
             parent_device, child_device  = annotation[parent], annotation[child]
-            #self.get_device_in_annotation(parent), self.get_device_in_annotation(child)
-            ## comm_time depends on what your parent device is
+            # self.get_device_in_annotation(parent), self.get_device_in_annotation(child)
+            # comm_time depends on what your parent device is
             comm_time += self.op_runtimes[parent_device].get_communication_time(parent_device, parent.data_size, child_device)
 
         # First Corner Case, if initial op in GPU
         for node in self.ir._top_nodes:
-            device = self.get_device_in_annotation(node)
+            device = annotation[node] # self.get_device_in_annotation(node)
             comm_time += self.op_runtimes[0].get_communication_time(0, node.data_size, device)
 
         # Second Corner Case, if final op in GPU
         for node in self.ir._top_nodes:
-            device = self.get_device_in_annotation(node)
+            device = annotation[node] # self.get_device_in_annotation(node)
             comm_time += self.op_runtimes[device].get_communication_time(device, node.data_size, 0)
 
         return comm_time
 
-    def optimize(self):
-        print(f"Starting at {self.annotations_} with function value {self.get_cost(self.annotations_)}")
-        opt = ir_graph_tuner(self.annotations_)
-        opt.steps = 100000
-        # since our state is just a list, slice is the fastest way to copy
-        opt.copy_strategy = "slice"
-        self.annotations_, cost = opt.anneal()
-        print(f"Minima found at {self.annotations_} with function value {cost}")
+
         

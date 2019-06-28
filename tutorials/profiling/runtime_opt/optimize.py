@@ -21,27 +21,35 @@
 **Author**: `Rohan Mukherjee <https://github.com/rohan2606>`_,
              Amazon, AWS <mukrohan@amazon.com>
 
+This is a simple optimization pass to run simulated annealing on Relay IR graphs.
+
+A graph is considered composed of a bag of OpNodes
+
 """
 
-from simaanneal import Annealer
-import random
-from graph_annotation import graph_annotation
 
-""" Optimizes graph annotation with simulated annealing"""
-class ir_graph_tuner(Annealer):
+from graph_annotation import GraphAnnotation
+from simulated_annealing import simulated_annealing
 
-    # the state is equal to our annotation
-    def __init__(self, state):
-        self.annotation = graph_annotation()
-        super(ir_graph_tuner, self).__init__(state) # important!
 
-    def move(self):
-        # select a random node
-        n = random.randint(0, len(self.state) - 1)
-        # its current_state or annotation
-        curr = self.state[n]
-        # new annotation
-        self.state[n] = random.randint(0, len(self.annotation.devices) - 1)
+def optimize():
 
-    def energy(self):
-        return self.annotation.get_cost(self.state)
+    # Initialize the graph
+    _graph = GraphAnnotation()
+    print(f"Starting at {_graph.annotations_} with function value {_graph.get_cost(_graph.annotations_)}")
+
+    # Setup the optimization
+    opt = simulated_annealing(_graph.annotations_)
+    opt.steps = 100000
+    # Unsure :: # since our state is just a list, slice is the fastest way to copy
+    opt.copy_strategy = "slice"
+
+    # Run the annealing
+    final_annotations_, cost = opt.anneal()
+    print(f"Minima found at {final_annotations_} with function value {cost}")
+    return final_annotations_
+
+
+if __name__ == '__main__':
+    annotation = optimize()
+    print(annotation)

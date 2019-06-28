@@ -21,25 +21,33 @@
 **Author**: `Rohan Mukherjee <https://github.com/rohan2606>`_,
              Amazon, AWS <mukrohan@amazon.com>
 
-    Generic Node Class
-
 """
-from functools import reduce
+
+from simanneal import Annealer
+import random
+from graph_annotation import GraphAnnotation
 
 
-class Node(object):
+class simulated_annealing(Annealer):
+    """ Optimizes graph annotation with simulated annealing"""
 
-    def __init__(self, val, shape, parents=None):
+    # the state is equal to our annotation
+    def __init__(self, state):
+        self.annotation = GraphAnnotation()
+        super(simulated_annealing, self).__init__(state)  # important!
 
-        if parents is None:
-            parents = list()
+    def move(self):
+        # select a random node
+        n = random.randint(0, len(self.state) - 1)
 
-        self.val = val
-        self.data_size = reduce((lambda x, y: x * y), shape)  # multiply all elements in list
-        # self.data_size is in bytes
-        self.parents = parents
-        return
+        # its current_state or annotation
+        # curr = self.state[n]
 
-    def make_parent_link(self, new_parent_node):
-        self.parents.append(new_parent_node)
-        return
+        # new annotation
+        self.state[n] = random.randint(0, len(self.annotation.devices) - 1)
+
+    def energy(self):
+        return self.annotation.get_cost(self.state)
+
+
+
