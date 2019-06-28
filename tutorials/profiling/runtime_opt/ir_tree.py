@@ -27,14 +27,15 @@
 
 import json
 from node import Node
+from functools import reduce
 
-DEBUG = True
+from annotation_pass import DEBUG
 
 
 '''
 Reads a graph compiled by relay and constructs a tree data structure out of it. Return the parent nodes.
 '''
-class IRTree(object):
+class ir_tree(Object):
 
 
     '''
@@ -53,8 +54,15 @@ class IRTree(object):
 
         assert type(graph)==dict, 'graph format mismatch'
 
-        self.edges = set()
-        self.IRTree = self.convert2Tree(graph)
+        # initialize empty containers repreenting the tree
+        self._nodes = set()
+        self._edges = set()
+        self.symbolic_edges = set()
+        self._leaf_nodes = set()
+        self._top_nodes = set()
+
+        # parse the graph to construvt the tree
+        self.convert2Tree(graph)
         return
 
     '''
@@ -80,12 +88,12 @@ class IRTree(object):
         node_map = dict()
 
         # top level nodes mean the nodes that have no parent, it can be more than one
-        top_level_nodes = set()
+        self._leaf_nodes = set()
 
         if DEBUG:
             print('Number of nodes in graph :: ' + str(len(graph['nodes'])))
 
-        for node_id, node_vals in enumerate(graph['nodes']):
+        for node_id, (node_vals, shape) in enumerate(zip(graph['nodes'], graph['shape'][1])):
             # get the node vals
             # node_type is either a tvm_op or null
             # node_name is the unq key
@@ -94,21 +102,33 @@ class IRTree(object):
             node_name = node_vals['name']
             input_ids = node_vals['inputs']
 
-            _node = Node(node_name)
+            _node = Node(node_name, shape)
             # add Node to the mapping dictionary
             node_map[node_id] = _node
 
-            # add Node to the top_level_nodes if it has no inputs
+            # add Node to the leaf nodes temporarily, will be pruned if needed
+            self._leaf_nodes.add(node_id)
+
+            # add Node to top_nodes if they have no inputs
             if len(input_ids) == 0:
-                top_level_nodes.add(_node)
+                self._top_nodes.add(node_id)
+
+            # add to global list of nodes
+            self._nodes.add(node_id)
+
 
             #make symbolic links to parent
-            for id in input_ids:
-                id = id[0] # some pecularity in relay graph format, remaining items are always 0
-                parent = node_map[id] # get the parent node
-                parent.make_child_link(_node)
+            for parent_id in input_ids:
+                parent_id = parent_id[0] # some pecularity in relay graph format, remaining items are always 0
+                parent = node_map[parent_id] # get the parent node
+                _node.make_parent_link(parent)
+                # self._edges.add((parent, child))
+                self._edges.add((parent_id, node_id)) #parent, child))
+                if parent in self._leaf_nodes:
+                    self._leaf_nodes.remove(parent_id)
 
-        return top_level_nodes
+
+        return
 
 
 
@@ -117,35 +137,37 @@ class IRTree(object):
     '''
         Traverse the graph following the edges starting from the top level nodes.
     '''
-    def edge_traversal(self, top_level_nodes, visited=set(), traversal=[]):
+    def bottom_up_edge_traversal(self, leaf_nodes=self._leaf_nodes, visited=set(), traversal=[]):
 
-        new_top_nodes = set()
+        new_leaves = set()
 
-        for top_parent_node in top_level_nodes:
-            for child in top_node.children:
-                traversal.append((top_parent_node , child.val))
-                if child.val not in visited:
-                    visited.add(child.val)
-                    new_top_nodes.add(child)
+        for leaf in leaf_nodes:
+            if leaf.val not in visited:
+                visited.add(leaf.val)
+                for parent in leaf.parents:
+                    traversal.append((parent.val , leaf.val))
+                    if parent.val not in visited:
+                        visited.add(parent.val)
+                        new_leaves.add(parent)
 
-        if len(new_top_nodes) == 0:
+        if len(new_leaves) == 0:
             return traversal
         else:
-            return self.edge_traversal(new_top_nodes, visited, traversal)
+            return self.bottom_up_edge_traversal(new_leaves, visited, traversal)
 
 
 
     '''
         Visualize the graph by plotting edge traversal with a dot script
     '''
-    def view_graph(self, top_level_nodes):
+    def view_graph(self):
         from graphviz import Digraph
         g = Digraph('G', filename='op_graph.gv')
-        edges = self.edge_traversal(top_level_nodes)
+        edges = self.bottom_up_edge_traversal()
         for edge in edges:
-            node0 = edge[0]
-            node1 = edge[1]
-            g.edge(node0, node1)
+            parent = edge[0]
+            child = edge[1]
+            g.edge(parent, child)
 
         g.view()
         return

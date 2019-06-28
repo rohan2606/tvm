@@ -18,24 +18,30 @@
 .. _graph_annotation_pass:
 
 ====================
-**Author**: `Rohan Mukherjee <https://github.com/rohan2606>`_, \
-            ``_
-
-This is a simple optimization pass to run simulated annealing on Relay IR graphs.
-
-A graph is considered composed of a bag of OpNodes
+**Author**: `Rohan Mukherjee <https://github.com/rohan2606>`_,
+             Amazon, AWS <mukrohan@amazon.com>
 
 """
 
-from IRTree import IRTree
+from simaanneal import Annealer
+import random
+from graph_annotation import graph_annotation
 
-class graph_annotation(object):
+""" Optimizes graph annotation with simulated annealing"""
+class ir_graph_tuner(Annealer):
 
+    # the state is equal to our annotation
+    def __init__(self, state):
+        self.annotation = graph_annotation()
+        super(ir_graph_tuner, self).__init__(state) # important!
 
-    def __init__(self, graph=None):
+    def move(self):
+        # select a random node
+        n = random.randint(0, len(self.state) - 1)
+        # its current_state or annotation
+        curr = self.state[n]
+        # new annotation
+        self.state[n] = random.randint(0, len(self.annotation.devices) - 1)
 
-        IRTree(graph).IRTree
-        self.annotations_ = None
-
-
-        return
+    def energy(self):
+        return self.annotation.get_cost(self.state)
