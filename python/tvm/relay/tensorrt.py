@@ -93,23 +93,57 @@ def IsTrtRuntimeAvailable():
         return False
     return GetTrtVersion() != ()
 
+def check_dynamism(args):
+    for arg in args:
+        # TODO: Tuple Type
+        # if isinstance(arg, relay.TupleType):
+        #     print("TupleType inputs are not supported for TensorRT.")
+        #     return False
+        for arg_shape in arg.checked_type.shape:
+            if isinstance(arg_shape, tvm.tir.expr.Any):
+                print("Dynamic inputs are not supported for TensorRT.")
+                return False
+    return True
+
+
 def _register_external_op_helper(op_name, supported=True):
     @tvm.ir.register_op_attr(op_name, "target.tensorrt")
     def _func_wrapper(attrs, args):
+        # TODO Rohan: Code Repetition for dynamic checks in multiple wrappers
+        print("Working with op {}".format(op_name))
+        t = check_dynamism(args)
+        if not t:
+            return t
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
             return False
         return supported
     return _func_wrapper
 
+
+
 def _register_external_op_helper_func(op_name, func, trt_version):
     @tvm.ir.register_op_attr(op_name, "target.tensorrt")
     def _func_wrapper(attrs, args):
+        t = check_dynamism(args)
+        if not t:
+            return t
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
             return False
         return func(attrs, args, op_name, trt_version)
     return _func_wrapper
+
+
+def _register_external_dynamic_check_func(op_name, func):
+    @tvm.ir.register_op_attr(op_name, "target.tensorrt")
+    def _func_wrapper(attrs, args):
+        t = check_dynamism(args)
+        if not t:
+            return t
+        return func(attrs, args)
+    return _func_wrapper
+
 
 def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
     if hasattr(register_tensorrt_annotations, "registered"):
@@ -140,7 +174,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
     #_register_external_op_helper("split")
     #_register_external_op_helper("slice_like")
 
-    @tvm.ir.register_op_attr("add", "target.tensorrt")
+    # @tvm.ir.register_op_attr("add", "target.tensorrt")
     def add_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -153,7 +187,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.batch_norm", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.batch_norm", "target.tensorrt")
     def batch_norm_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -163,7 +197,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.softmax", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.softmax", "target.tensorrt")
     def softmax_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -173,7 +207,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.conv2d", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.conv2d", "target.tensorrt")
     def conv2d_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -189,7 +223,13 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.dense", "target.tensorrt")
+
+    _register_external_dynamic_check_func("add", add_whitelist_fn)
+    _register_external_dynamic_check_func("nn.batch_norm", batch_norm_whitelist_fn)
+    _register_external_dynamic_check_func("nn.softmax", softmax_whitelist_fn)
+    _register_external_dynamic_check_func("nn.conv2d", conv2d_whitelist_fn)
+
+    # @tvm.ir.register_op_attr("nn.dense", "target.tensorrt")
     def dense_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -204,7 +244,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.bias_add", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.bias_add", "target.tensorrt")
     def bias_add_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         # TODO(trevmorr): BiasAddSimplifier creates a pattern which cannot be
         # converted to TRT without binding params and constant folding.
@@ -219,7 +259,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.max_pool2d", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.max_pool2d", "target.tensorrt")
     def max_pool_2d_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -232,7 +272,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.avg_pool2d", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.avg_pool2d", "target.tensorrt")
     def avg_pool_2d_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -249,7 +289,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.global_max_pool2d", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.global_max_pool2d", "target.tensorrt")
     def global_max_pool_2d_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -259,7 +299,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.global_avg_pool2d", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.global_avg_pool2d", "target.tensorrt")
     def global_avg_pool_2d_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -269,7 +309,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("expand_dims", "target.tensorrt")
+    # @tvm.ir.register_op_attr("expand_dims", "target.tensorrt")
     def expand_dims_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -279,7 +319,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("squeeze", "target.tensorrt")
+    # @tvm.ir.register_op_attr("squeeze", "target.tensorrt")
     def squeeze_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -292,7 +332,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("concatenate", "target.tensorrt")
+    # @tvm.ir.register_op_attr("concatenate", "target.tensorrt")
     def concatenate_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.dtype != "float32" for x in args[0].checked_type.fields]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -309,7 +349,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
                     return False
         return True
 
-    @tvm.ir.register_op_attr("nn.conv2d_transpose", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.conv2d_transpose", "target.tensorrt")
     def conv2d_transpose_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -331,7 +371,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("transpose", "target.tensorrt")
+    # @tvm.ir.register_op_attr("transpose", "target.tensorrt")
     def transpose_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -341,7 +381,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("reshape", "target.tensorrt")
+    # @tvm.ir.register_op_attr("reshape", "target.tensorrt")
     def reshape_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if args[0].checked_type.dtype != "float32":
             print("Only float32 inputs are supported for TensorRT.")
@@ -371,7 +411,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
                 return False
         return True
 
-    @tvm.ir.register_op_attr("nn.pad", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.pad", "target.tensorrt")
     def pad_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -383,6 +423,23 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             print("nn.pad: pad value is {} but must be 0.0.".format(float(attrs.pad_value)))
             return False
         return True
+
+
+    _register_external_dynamic_check_func("nn.dense", dense_whitelist_fn)
+    _register_external_dynamic_check_func("nn.bias_add", bias_add_whitelist_fn)
+    _register_external_dynamic_check_func("nn.max_pool2d", max_pool_2d_whitelist_fn)
+    _register_external_dynamic_check_func("nn.avg_pool2d", avg_pool_2d_whitelist_fn)
+    _register_external_dynamic_check_func("nn.global_max_pool2d", global_max_pool_2d_whitelist_fn)
+    _register_external_dynamic_check_func("nn.global_avg_pool2d", global_avg_pool_2d_whitelist_fn)
+    _register_external_dynamic_check_func("expand_dims", expand_dims_whitelist_fn)
+    _register_external_dynamic_check_func("squeeze", squeeze_whitelist_fn)
+    _register_external_dynamic_check_func("concatenate", concatenate_whitelist_fn)
+    _register_external_dynamic_check_func("nn.conv2d_transpose", conv2d_transpose_whitelist_fn)
+    _register_external_dynamic_check_func("transpose", transpose_whitelist_fn)
+    _register_external_dynamic_check_func("reshape", reshape_whitelist_fn)
+    _register_external_dynamic_check_func("nn.pad", pad_whitelist_fn)
+
+
 
     def reduce_whitelist_fn(attrs, args, op_name, trt_version):
         if not attrs.axis or len(attrs.axis) == 0:
@@ -414,7 +471,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
     _register_external_op_helper_func("atan", trt_5_1_5_whitelist_fn, trt_version)
     _register_external_op_helper_func("ceil", trt_5_1_5_whitelist_fn, trt_version)
 
-    @tvm.ir.register_op_attr("strided_slice", "target.tensorrt")
+    # @tvm.ir.register_op_attr("strided_slice", "target.tensorrt")
     def strided_slice_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -437,12 +494,12 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("image.resize", "target.tensorrt")
+    # @tvm.ir.register_op_attr("image.resize", "target.tensorrt")
     def resize_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         # TODO(trevmorr): Output does not match TVM. Disable.
         return False
 
-    @tvm.ir.register_op_attr("nn.adaptive_max_pool2d", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.adaptive_max_pool2d", "target.tensorrt")
     def adapative_max_pool2d_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -452,7 +509,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.adaptive_avg_pool2d", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.adaptive_avg_pool2d", "target.tensorrt")
     def adapative_avg_pool2d_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -462,12 +519,19 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.upsampling", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.upsampling", "target.tensorrt")
     def upsampling_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         # TODO(trevmorr): Output does not match TVM. Disable.
         return False
 
-    @tvm.ir.register_op_attr("nn.conv3d", "target.tensorrt")
+    _register_external_dynamic_check_func("strided_slice", strided_slice_whitelist_fn)
+    _register_external_dynamic_check_func("image.resize", resize_whitelist_fn)
+    _register_external_dynamic_check_func("nn.adaptive_max_pool2d", adapative_max_pool2d_whitelist_fn)
+    _register_external_dynamic_check_func("nn.adaptive_avg_pool2d", adapative_avg_pool2d_whitelist_fn)
+    _register_external_dynamic_check_func("nn.upsampling", upsampling_whitelist_fn)
+
+
+    # @tvm.ir.register_op_attr("nn.conv3d", "target.tensorrt")
     def conv3d_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -486,7 +550,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.max_pool3d", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.max_pool3d", "target.tensorrt")
     def max_pool_3d_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -499,7 +563,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.avg_pool3d", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.avg_pool3d", "target.tensorrt")
     def avg_pool_3d_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -512,7 +576,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             return False
         return True
 
-    @tvm.ir.register_op_attr("nn.conv3d_transpose", "target.tensorrt")
+    # @tvm.ir.register_op_attr("nn.conv3d_transpose", "target.tensorrt")
     def conv3d_transpose_whitelist_fn(attrs, args): # pylint: disable=unused-variable
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
@@ -539,6 +603,14 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
             print("nn.conv3d_transpose: output padding is not supported.")
             return False
         return True
+
+    _register_external_dynamic_check_func("nn.conv3d", conv3d_whitelist_fn)
+    _register_external_dynamic_check_func("nn.max_pool3d", max_pool_3d_whitelist_fn)
+    _register_external_dynamic_check_func("nn.avg_pool3d", avg_pool_3d_whitelist_fn)
+    _register_external_dynamic_check_func("nn.conv3d_transpose", conv3d_transpose_whitelist_fn)
+
+
+
 
 class VarReplacer(ExprMutator):
     """
