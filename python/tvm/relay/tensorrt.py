@@ -136,6 +136,7 @@ def _register_external_op_helper_func(op_name, func, trt_version):
     def _func_wrapper(attrs, args):
         print("Working with op {}".format(op_name))
         t = check_dynamism(args, op_name)
+
         if not t:
             return t
         if any([x.checked_type.dtype != "float32" for x in args]):
