@@ -731,6 +731,8 @@ def PruneSubgraphs(mod, compiler="tensorrt", use_implicit_batch=True, prune_no_m
     # Remove invalid subgraphs
     for subgraph in mod.get_global_vars():
         name = subgraph.name_hint
+        if mod[name].attrs and hasattr(mod[name].attrs, "SkipOptimization") and mod[name].attrs["SkipOptimization"] == 1:
+            continue
         if not mod[name].attrs or mod[name].attrs["Compiler"] != compiler:
             continue
         if not is_valid_subgraph(mod[name]):
@@ -741,6 +743,8 @@ def PruneSubgraphs(mod, compiler="tensorrt", use_implicit_batch=True, prune_no_m
         subgraph_with_macs = []
         for subgraph in mod.get_global_vars():
             name = subgraph.name_hint
+            if mod[name].attrs and hasattr(mod[name].attrs, "SkipOptimization") and mod[name].attrs["SkipOptimization"] == 1:
+                continue
             if not mod[name].attrs or mod[name].attrs["Compiler"] != compiler:
                 continue
             num_macs = relay.analysis.get_total_mac_number(mod[name])
@@ -817,8 +821,24 @@ def EnableTrt(mod, params=None, trt_version=None, use_implicit_batch=True,
                                     transform.FoldConstant(),
                                     LegalizeLayoutTranformPass(),
                                     transform.InferType(),
-                                    tvm.transform.PrintIR("A1"),
-                                    transform.AnnotateTarget('tensorrt'),
+                                    tvm.transform.PrintIR("A1")])
+    with tvm.transform.PassContext(opt_level=3):
+        mod = seq(mod)
+
+    def _set_optimization_attr(mod, skip_optimization=1):
+        # Prepare the mod such that all fucntions except main are tagged SkipOptimization
+        gvs = mod.get_global_vars()
+        for gv in gvs:
+            func = mod[gv]
+            name = gv.name_hint
+            if name != 'main':
+                new_func = func.with_attr("SkipOptimization",
+                                          tvm.tir.IntImm("int32", skip_optimization))
+                mod.update_func(gv, new_func)
+        return mod
+
+    mod = _set_optimization_attr(mod, 1)
+    seq = tvm.transform.Sequential([transform.AnnotateTarget('tensorrt'),
                                     tvm.transform.PrintIR("A2"),
                                     transform.MergeCompilerRegions(),
                                     tvm.transform.PrintIR("A3"),
@@ -827,6 +847,8 @@ def EnableTrt(mod, params=None, trt_version=None, use_implicit_batch=True,
     with tvm.transform.PassContext(opt_level=3):
         mod = seq(mod)
     mod = PruneSubgraphs(mod, use_implicit_batch=use_implicit_batch, prune_no_macs=prune_subgraphs)
+    mod = _set_optimization_attr(mod, 0)
+
     # Set environment variables used to communicate with TensorRT module.
     os.environ["TVM_TENSORRT_MAX_WORKSPACE_SIZE"] = str(max_workspace_size)
     os.environ["TVM_TENSORRT_USE_IMPLICIT_BATCH"] = str(int(use_implicit_batch))

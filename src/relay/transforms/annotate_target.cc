@@ -78,6 +78,7 @@ class AnnotateTargetRewriter : public ExprRewriter {
         arg_target = op_expr_to_target_[arg];
         compiler_ends.push_back(InsertAnnotation(arg, arg_target, make_end_op));
       } else {
+        //else if (arg.as<VarNode>() != nullptr || arg.as<ConstantNode>() != nullptr){
         // Input vars.
         compiler_ends.push_back(arg);
       }
