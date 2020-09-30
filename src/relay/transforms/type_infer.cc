@@ -326,7 +326,7 @@ class TypeInferencer : private ExprFunctor<Type(const Expr&)>,
     Type vtype = GetType(let->value);
     let_type = Unify(let_type, vtype, GetRef<Let>(let));
 
-    CHECK(is_functional_literal || !type_map_.count(let->var));
+    CHECK(is_functional_literal || !type_map_.count(let->var)) << AsText(GetRef<Expr>(let), false);
     // NOTE: no scoping is necessary because var are unique in program
     type_map_[let->var].checked_type = let_type;
     return GetType(let->body);
