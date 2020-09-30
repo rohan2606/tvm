@@ -235,8 +235,17 @@ class AnnotateTargetRewriter : public ExprRewriter {
   Expr Rewrite_(const LetNode* op, const Expr& post) final {
     auto let = Downcast<Let>(post);
 
-    auto target_n_args = AnnotateArgs({let->value, let->body});
-    auto new_expr = Let(let->var, std::get<1>(target_n_args)[0], std::get<1>(target_n_args)[1]);
+    Expr new_expr;
+    std::pair<std::string, Array<Expr>> target_n_args;
+    bool is_functional_literal = let->value.as<FunctionNode>() != nullptr;
+    // FIXME - zhi/cody - please check if this makes sense.
+    if (is_functional_literal) {
+      target_n_args = AnnotateArgs({let->body});
+      new_expr = Let(let->var, let->value, std::get<1>(target_n_args)[0]);
+    } else {
+      target_n_args = AnnotateArgs({let->value, let->body});
+      new_expr = Let(let->var, std::get<1>(target_n_args)[0], std::get<1>(target_n_args)[1]);
+    }
     op_expr_to_target_[new_expr] = std::get<0>(target_n_args);
     return std::move(new_expr);
   }
