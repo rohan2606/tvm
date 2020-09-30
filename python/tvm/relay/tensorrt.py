@@ -24,7 +24,7 @@ import tvm
 import tvm.ir
 import tvm.relay.transform as transform
 from tvm import relay
-from tvm.relay.expr import Call, Constant, Tuple, GlobalVar
+from tvm.relay.expr import Call, Constant, Tuple, GlobalVar, Var, TupleGetItem
 from tvm.relay.build_module import bind_params_by_name
 from tvm.relay.transform import _ffi_api
 from tvm.relay.expr_functor import ExprMutator
@@ -93,16 +93,25 @@ def IsTrtRuntimeAvailable():
         return False
     return GetTrtVersion() != ()
 
-def check_dynamism(args):
+def check_dynamism(args, op_name):
     for arg in args:
         # TODO: Tuple Type
         # if isinstance(arg, relay.TupleType):
         #     print("TupleType inputs are not supported for TensorRT.")
         #     return False
-        for arg_shape in arg.checked_type.shape:
-            if isinstance(arg_shape, tvm.tir.expr.Any):
-                print("Dynamic inputs are not supported for TensorRT.")
-                return False
+        try:
+            if isinstance(arg, (Call, Var, Constant, TupleGetItem)):
+                for dim_shape in arg.checked_type.shape:
+                    if isinstance(dim_shape, tvm.tir.expr.Any):
+                        print("Dynamic inputs are not supported for TensorRT for ", op_name, arg.checked_type.shape)
+                        return False
+            elif isinstance(arg, Tuple):
+                return check_dynamism(arg.fields, op_name)
+            else:
+                raise NotImplementedError(type(arg))
+        except:
+            print(args[0])
+            assert False, "failed for the {}".format(op_name)
     return True
 
 
@@ -111,7 +120,7 @@ def _register_external_op_helper(op_name, supported=True):
     def _func_wrapper(attrs, args):
         # TODO Rohan: Code Repetition for dynamic checks in multiple wrappers
         print("Working with op {}".format(op_name))
-        t = check_dynamism(args)
+        t = check_dynamism(args, op_name)
         if not t:
             return t
         if any([x.checked_type.dtype != "float32" for x in args]):
@@ -125,7 +134,9 @@ def _register_external_op_helper(op_name, supported=True):
 def _register_external_op_helper_func(op_name, func, trt_version):
     @tvm.ir.register_op_attr(op_name, "target.tensorrt")
     def _func_wrapper(attrs, args):
-        t = check_dynamism(args)
+        print("Working with op {}".format(op_name))
+        t = check_dynamism(args, op_name)
+
         if not t:
             return t
         if any([x.checked_type.dtype != "float32" for x in args]):
@@ -138,7 +149,8 @@ def _register_external_op_helper_func(op_name, func, trt_version):
 def _register_external_dynamic_check_func(op_name, func):
     @tvm.ir.register_op_attr(op_name, "target.tensorrt")
     def _func_wrapper(attrs, args):
-        t = check_dynamism(args)
+        print("Working with op {}".format(op_name))
+        t = check_dynamism(args, op_name)
         if not t:
             return t
         return func(attrs, args)
@@ -804,8 +816,12 @@ def EnableTrt(mod, params=None, trt_version=None, use_implicit_batch=True,
                                                              'nn.conv3d': ['NCDHW', 'default']}),
                                     transform.FoldConstant(),
                                     LegalizeLayoutTranformPass(),
+                                    transform.InferType(),
+                                    # tvm.transform.PrintIR("A1"),
                                     transform.AnnotateTarget('tensorrt'),
+                                    # tvm.transform.PrintIR("A2"),
                                     transform.MergeCompilerRegions(),
+                                    # tvm.transform.PrintIR("A3"),
                                     transform.PartitionGraph(),
                                     transform.InferType()])
     with tvm.transform.PassContext(opt_level=3):
