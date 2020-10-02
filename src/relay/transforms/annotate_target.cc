@@ -238,27 +238,42 @@ class AnnotateTargetRewriter : public ExprRewriter {
 
     Expr new_expr;
     std::pair<std::string, Array<Expr>> target_n_args;
+    Expr new_body = InsertCompilerEnd(let->body);
     bool is_functional_literal = let->value.as<FunctionNode>() != nullptr;
     // FIXME - zhi/cody - please check if this makes sense.
     if (is_functional_literal) {
-      target_n_args = AnnotateArgs({let->body});
-      new_expr = Let(let->var, let->value, std::get<1>(target_n_args)[0]);
+      new_expr = Let(let->var, let->value, new_body);
     } else {
-      target_n_args = AnnotateArgs({let->value, let->body});
-      new_expr = Let(let->var, std::get<1>(target_n_args)[0], std::get<1>(target_n_args)[1]);
+      target_n_args = AnnotateArgs({let->value});
+      new_expr = Let(let->var, std::get<1>(target_n_args)[0], new_body);
     }
-    op_expr_to_target_[new_expr] = std::get<0>(target_n_args);
+    // op_expr_to_target_[new_expr] = std::get<0>(target_n_args);
     return std::move(new_expr);
+  }
+
+  Expr InsertCompilerEnd(const Expr expr) {
+    Expr new_expr = expr;
+    if (op_expr_to_target_.find(expr) != op_expr_to_target_.end()) {
+      new_expr = InsertAnnotation(expr, op_expr_to_target_[expr], make_end_op);
+      op_expr_to_target_[new_expr] = op_expr_to_target_[expr];
+    }
+    return new_expr;
   }
 
   Expr Rewrite_(const IfNode* op, const Expr& post) final {
     auto expr = Downcast<If>(post);
 
-    auto target_n_args = AnnotateArgs({expr->cond, expr->true_branch, expr->false_branch});
-    CHECK_EQ(std::get<1>(target_n_args).size(), 3U);
-    auto new_expr = If(std::get<1>(target_n_args)[0], std::get<1>(target_n_args)[1],
-                       std::get<1>(target_n_args)[2]);
-    op_expr_to_target_[new_expr] = std::get<0>(target_n_args);
+    // CHECK(op_expr_to_target_.find(expr->cond) != op_expr_to_target_.end()) << AsText(expr->cond, false);
+    // CHECK(op_expr_to_target_.find(expr->true_branch) != op_expr_to_target_.end()) << AsText(expr->true_branch, false);
+    // CHECK(op_expr_to_target_.find(expr->false_branch) != op_expr_to_target_.end()) << AsText(expr->false_branch, false);
+
+    Expr new_cond = InsertCompilerEnd(expr->cond);
+    Expr new_true_branch = InsertCompilerEnd(expr->true_branch);
+    Expr new_false_branch = InsertCompilerEnd(expr->false_branch);
+
+    auto new_expr = If(new_cond, new_true_branch, new_false_branch);
+    // We don't need to set the target for the If Node
+    // op_expr_to_target_[new_expr] = std::get<0>(target_n_args);
     return std::move(new_expr);
   }
 
