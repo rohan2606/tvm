@@ -664,9 +664,11 @@ class SubgraphRemover(ExprMutator):
                 args = []
                 for arg in call.args:
                     args.append(super().visit(arg))
-                subgraph_gv = relay.GlobalVar(name)
-                self.new_mod[subgraph_gv] = self.mod[name]
-                return subgraph_gv(*args)
+                return call.op(*args)
+
+                # subgraph_gv = relay.GlobalVar(name)
+                # self.new_mod[subgraph_gv] = self.mod[name]
+                # return subgraph_gv(*args)
         return super().visit_call(call)
 
 def PruneSubgraphs(mod, compiler="tensorrt", use_implicit_batch=True, prune_no_macs=False):
@@ -755,7 +757,8 @@ def PruneSubgraphs(mod, compiler="tensorrt", use_implicit_batch=True, prune_no_m
         return mod
     print("Will remove these subgraphs:", subgraphs_to_remove)
     # Create new pruned module
-    new_mod = tvm.IRModule()
+    # new_mod = tvm.IRModule(type_definitions=mod.type_definitions)
+    new_mod = tvm.IRModule(mod.functions, mod.type_definitions)
     new_mod["main"] = SubgraphRemover(subgraphs_to_remove, mod, new_mod).visit(mod["main"])
     return new_mod
 
@@ -820,8 +823,7 @@ def EnableTrt(mod, params=None, trt_version=None, use_implicit_batch=True,
                                                              'nn.conv3d': ['NCDHW', 'default']}),
                                     transform.FoldConstant(),
                                     LegalizeLayoutTranformPass(),
-                                    transform.InferType(),
-                                    tvm.transform.PrintIR("A1")])
+                                    transform.InferType()])
     with tvm.transform.PassContext(opt_level=3):
         mod = seq(mod)
 
@@ -839,9 +841,7 @@ def EnableTrt(mod, params=None, trt_version=None, use_implicit_batch=True,
 
     mod = _set_optimization_attr(mod, 1)
     seq = tvm.transform.Sequential([transform.AnnotateTarget('tensorrt'),
-                                    tvm.transform.PrintIR("A2"),
                                     transform.MergeCompilerRegions(),
-                                    tvm.transform.PrintIR("A3"),
                                     transform.PartitionGraph(),
                                     transform.InferType()])
     with tvm.transform.PassContext(opt_level=3):
