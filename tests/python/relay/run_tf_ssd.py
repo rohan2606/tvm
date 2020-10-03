@@ -34,45 +34,42 @@ def benchmark(model='saved_model',
               name='ssd_mn',
               input_shape=(1, 512, 512, 3)):
 
-  parser = TFParser(model)
-  graph_def = parser.parse()
-
   if not os.path.exists(name):
+      parser = TFParser(model)
+      graph_def = parser.parse()
       mod, params = relay.frontend.from_tensorflow(graph_def, shape={input_name: input_shape})
       save_mod_params(mod, params, name)
   else:
       mod, params = load_mod_params(name)
-
-
-  mod = relay.tensorrt.EnableTrt(mod, params)
+  print(mod)
+  mod = relay.tensorrt.EnableTrt(mod, params, prune_subgraphs=True)
+  print("TRTized")
   print(mod)
 
-  # seq = tvm.transform.Sequential([
-  #     relay.transform.RemoveUnusedFunctions(),
-  #     relay.transform.ConvertLayout({'nn.conv2d': ['NCHW', 'default'],
-  #                                    'nn.conv3d': ['NCDHW', 'default'],
-  #                                    'qnn.conv2d': ['NCHW', 'default'],
-  #                                    'qnn.conv3d': ['NCDHW', 'default']})
-  # ])
-  # with tvm.transform.PassContext(opt_level=3):
-  #   mod = seq(mod)
-
-  # print(mod)
-
-
-  # dtype = 'float32'
-  # i_data = np.random.uniform(-1, 1, input_shape).astype(dtype)
-  # feed_dict = {input_name: i_data}
-  #
-  # with tvm.transform.PassContext(opt_level=3, disabled_pass=["FoldScaleAxis"]):
-  #   vm_exec = relay.vm.compile(mod, "llvm", params=params)
-  # ctx = tvm.cpu()
-  # vm = VirtualMachine(vm_exec, ctx)
-  # vm.set_input("main", **feed_dict)
-  # tvm_res = vm.run()
-  #
+  with tvm.transform.PassContext(opt_level=3, disabled_pass=["FoldScaleAxis"]):
+    vm_exec = relay.vm.compile(mod, "llvm", params=params)
+    code, lib = vm_exec.save()
+  # save and load the code and lib file.
+  lib.export_library("lib.so")
+  with open("code.ro", "wb") as fo:
+      fo.write(code)
+  
+  loaded_lib = tvm.runtime.load_module("lib.so")
+  loaded_code = bytearray(open("code.ro", "rb").read())
+  # deserialize.
+  ctx = tvm.cpu()
+  des_exec = tvm.runtime.vm.Executable.load_exec(loaded_code, loaded_lib)
+  des_vm = tvm.runtime.vm.VirtualMachine(des_exec, ctx)
+ 
+  dtype = 'uint8'
+  i_data = np.random.uniform(-1, 1, input_shape).astype(dtype)
+  feed_dict = {input_name: i_data}
+  des_vm.set_input("main", **feed_dict)
+  tvm_res = des_vm.run()
+ 
 
 if __name__ == '__main__':
-  path = '/home/ubuntu/pytorch_od/models/ssd_mobilenet/saved_model'
+  path = '/home/ubuntu/tf_models/saved_model/'
   benchmark(model=path, name='ssd_mn')
+  print("Finish")
 
