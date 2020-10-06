@@ -33,11 +33,13 @@ def benchmark(model='saved_model',
               input_name='image_tensor',
               name='ssd_mn',
               input_shape=(1, 512, 512, 3)):
-
+  outputs=["detection_boxes", "detection_scores", "detection_classes"]
   if not os.path.exists(name):
-      parser = TFParser(model)
+      parser = TFParser(model, outputs=outputs)
       graph_def = parser.parse()
-      mod, params = relay.frontend.from_tensorflow(graph_def, shape={input_name: input_shape})
+      mod, params = relay.frontend.from_tensorflow(graph_def,
+                                                   shape={input_name: input_shape},
+                                                   outputs=outputs)
       save_mod_params(mod, params, name)
   else:
       mod, params = load_mod_params(name)
