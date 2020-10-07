@@ -94,6 +94,11 @@ def IsTrtRuntimeAvailable():
     return GetTrtVersion() != ()
 
 def check_dynamism(args, op_name):
+    # TODO remove
+    if "nn.conv2d" not in op_name:
+        return False
+
+    print("This op is now supported : {}".format(op_name))
     for arg in args:
         # TODO: Tuple Type
         # if isinstance(arg, relay.TupleType):
@@ -119,7 +124,7 @@ def _register_external_op_helper(op_name, supported=True):
     @tvm.ir.register_op_attr(op_name, "target.tensorrt")
     def _func_wrapper(attrs, args):
         # TODO Rohan: Code Repetition for dynamic checks in multiple wrappers
-        print("Working with op {}".format(op_name))
+        # print("Working with op {}".format(op_name))
         t = check_dynamism(args, op_name)
         if not t:
             return t
@@ -134,7 +139,7 @@ def _register_external_op_helper(op_name, supported=True):
 def _register_external_op_helper_func(op_name, func, trt_version):
     @tvm.ir.register_op_attr(op_name, "target.tensorrt")
     def _func_wrapper(attrs, args):
-        print("Working with op {}".format(op_name))
+        # print("Working with op {}".format(op_name))
         t = check_dynamism(args, op_name)
 
         if not t:
@@ -149,7 +154,7 @@ def _register_external_op_helper_func(op_name, func, trt_version):
 def _register_external_dynamic_check_func(op_name, func):
     @tvm.ir.register_op_attr(op_name, "target.tensorrt")
     def _func_wrapper(attrs, args):
-        print("Working with op {}".format(op_name))
+        # print("Working with op {}".format(op_name))
         t = check_dynamism(args, op_name)
         if not t:
             return t

@@ -680,4 +680,30 @@ def parametrize_targets(*args):
     return wrap(args)
 
 
+def vmobj_to_list(o):
+    if isinstance(o, tvm.nd.NDArray):
+        return [o.asnumpy()]
+    elif isinstance(o, tvm.runtime.container.ADT):
+        result = []
+        for f in o:
+            result.extend(vmobj_to_list(f))
+        return result
+    elif isinstance(o, tvm.relay.backend.interpreter.ConstructorValue):
+        if o.constructor.name_hint == "Cons":
+            tl = vmobj_to_list(o.fields[1])
+            hd = vmobj_to_list(o.fields[0])
+            hd.extend(tl)
+            return hd
+        elif o.constructor.name_hint == "Nil":
+            return []
+        elif "tensor_nil" in o.constructor.name_hint:
+            return [0]
+        elif "tensor" in o.constructor.name_hint:
+            return [o.fields[0].asnumpy()]
+        else:
+            raise RuntimeError("Unknown object type: %s" % o.constructor.name_hint)
+    else:
+        raise RuntimeError("Unknown object type: %s" % type(o))
+
+
 tvm._ffi._init_api("testing", __name__)
