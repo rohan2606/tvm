@@ -94,11 +94,6 @@ def IsTrtRuntimeAvailable():
     return GetTrtVersion() != ()
 
 def check_dynamism(args, op_name):
-    # TODO remove
-    if "nn.conv2d" not in op_name:
-        return False
-
-    print("This op is now supported : {}".format(op_name))
     for arg in args:
         # TODO: Tuple Type
         # if isinstance(arg, relay.TupleType):
