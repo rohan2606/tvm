@@ -14,8 +14,7 @@ from tvm.testing import vmobj_to_list
 def dont_support(attrs, args):
   return False
 
-
-tvm.ir.register_op_attr('nn.conv2d', 'target.tensorrt', level=11, value=dont_support)
+tvm.ir.register_op_attr('add', 'target.tensorrt', level=11, value=dont_support)
 
 # Add more operators here  - go 1 by 1
 def compile(model='saved_model',
