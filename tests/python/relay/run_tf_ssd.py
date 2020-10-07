@@ -141,9 +141,9 @@ if __name__ == '__main__':
     t1_end = time.perf_counter_ns()
     time_trt += (t1_end - t1_start)
     # ##
-    t2_start = time.perf_counter_ns()
+    t2_start = time.perf_counter()
     res_vm = benchmark(name='ssd_mn', i_data=i_data)
-    t2_end = time.perf_counter_ns()
+    t2_end = time.perf_counter()
     time_vm += (t2_end - t2_start)
 
     print(vmobj_to_list(res_trt))
@@ -164,7 +164,7 @@ if __name__ == '__main__':
     # for m, n in zip(res_trt.asnumpy()[0], res_vm.asnumpy()[0]):
     #   assert m == n
     # print(res_trt.asnumpy()[0], res_vm.asnumpy()[0])
-    print(time_vm /(np.power(10, 9) * (i+1)), time_trt/(np.power(10, 9) * (i+1)))
+    print(time_vm /((i+1)), time_trt/((i+1)))
   print("Finish")
 
   # predictions = infer_from_tf( os.path.join(path, 'saved_model.pb') , i_data=i_data)
