@@ -136,9 +136,9 @@ if __name__ == '__main__':
     ##
     i_data = np.random.uniform(0.0, 255.0, size=(1, 512, 512, 3)).astype("uint8")
 
-    t1_start = time.perf_counter_ns()
+    t1_start = time.perf_counter()
     res_trt = benchmark(name='ssd_mn_trt', i_data=i_data)
-    t1_end = time.perf_counter_ns()
+    t1_end = time.perf_counter()
     time_trt += (t1_end - t1_start)
     # ##
     t2_start = time.perf_counter()
