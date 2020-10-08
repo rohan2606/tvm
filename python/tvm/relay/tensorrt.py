@@ -95,10 +95,6 @@ def IsTrtRuntimeAvailable():
 
 def check_dynamism(args, op_name):
     for arg in args:
-        # TODO: Tuple Type
-        # if isinstance(arg, relay.TupleType):
-        #     print("TupleType inputs are not supported for TensorRT.")
-        #     return False
         try:
             if isinstance(arg, (Call, Var, Constant, TupleGetItem)):
                 for dim_shape in arg.checked_type.shape:
@@ -119,7 +115,6 @@ def _register_external_op_helper(op_name, supported=True):
     @tvm.ir.register_op_attr(op_name, "target.tensorrt")
     def _func_wrapper(attrs, args):
         # TODO Rohan: Code Repetition for dynamic checks in multiple wrappers
-        print("Working with op {}".format(op_name))
         t = check_dynamism(args, op_name)
         if not t:
             return t
@@ -134,7 +129,6 @@ def _register_external_op_helper(op_name, supported=True):
 def _register_external_op_helper_func(op_name, func, trt_version):
     @tvm.ir.register_op_attr(op_name, "target.tensorrt")
     def _func_wrapper(attrs, args):
-        print("Working with op {}".format(op_name))
         t = check_dynamism(args, op_name)
 
         if not t:
@@ -149,7 +143,6 @@ def _register_external_op_helper_func(op_name, func, trt_version):
 def _register_external_dynamic_check_func(op_name, func):
     @tvm.ir.register_op_attr(op_name, "target.tensorrt")
     def _func_wrapper(attrs, args):
-        print("Working with op {}".format(op_name))
         t = check_dynamism(args, op_name)
         if not t:
             return t
@@ -188,6 +181,7 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
 
     # @tvm.ir.register_op_attr("add", "target.tensorrt")
     def add_whitelist_fn(attrs, args): # pylint: disable=unused-variable
+
         if any([x.checked_type.dtype != "float32" for x in args]):
             print("Only float32 inputs are supported for TensorRT.")
             return False
@@ -197,6 +191,11 @@ def register_tensorrt_annotations(trt_version, use_implicit_batch=True):
                 (len(args[0].checked_type.shape) > 3 or len(args[1].checked_type.shape) > 3):
             print("add: bug in TRT with adding batched constants.")
             return False
+
+        if all([a == b for a, b in zip(args[0].checked_type.shape,[1, 546, 1, 1])]) and \
+            all([a == b for a, b in zip(args[1].checked_type.shape, [1, 546, 1, 1])]):
+            return False
+
         return True
 
     # @tvm.ir.register_op_attr("nn.batch_norm", "target.tensorrt")
