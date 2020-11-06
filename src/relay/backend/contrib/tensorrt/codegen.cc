@@ -130,17 +130,17 @@ class TensorRTJSONSerializer : public backend::contrib::JSONSerializer {
         !attrs->strides.value().defined() || attrs->strides.value().size() == 0;
     auto ishape = backend::GetShape(cn->args[0]->checked_type());
 
-    auto process_slice_index = [](Integer x, int default_value, int dim_value) {
+    auto process_slice_index = [](Integer x, int default_value) {
       if (!x.defined()) return default_value;
       int value = x.as<IntImmNode>()->value;
-      if (value < 0) value += dim_value;
+      if (value == -1) return default_value;
       return value;
     };
 
     std::vector<std::string> start, size, strides;
     for (size_t i = 0; i < attrs->begin.value().size(); ++i) {
-      const int begin_value = process_slice_index(attrs->begin.value()[i], 0, ishape[i]);
-      const int end_value = process_slice_index(attrs->end.value()[i], ishape[i], ishape[i]);
+      const int begin_value = process_slice_index(attrs->begin.value()[i], 0);
+      const int end_value = process_slice_index(attrs->end.value()[i], ishape[i]);
       const int stride_value = (default_strides || i >= attrs->strides.value().size() ||
                                 !attrs->strides.value()[i].defined())
                                    ? 1
