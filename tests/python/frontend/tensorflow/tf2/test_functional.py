@@ -684,12 +684,86 @@ def run_func_graph(TestClass, use_vm=False):
 
     run(_function_params, vm=use_vm)
 
-
 def run_model_graph(TestClass, output_sig=None):
     def _model_params():
         return _model_graph(TestClass)
 
     run(_model_params, vm=True, output_sig=output_sig)
+
+def run_all(TestClass):
+    run_model_graph(TestClass)
+    for use_vm in [True, False]:
+        run_func_graph(TestClass, use_vm=use_vm)
+
+
+def test_add():
+    run_all(AddOne)
+    run_all(AddOne2D)
+    run_all(AddOne2DConstant)
+
+def test_sub():
+    run_all(SubOne)
+    run_all(SubOne2D)
+    run_all(SubOne2DConstant)
+
+def test_mul():
+    run_all(MulOne)
+    run_all(MulOne2D)
+    run_all(MulOne2D_constant)
+
+def test_div():
+    run_all(DivOne)
+    run_all(DivOne2D)
+    run_all(DivOne2DConstant)
+
+def test_strided_slice():
+    run_all(StridedSlice)
+
+def test_shape():
+    run_all(Shape)
+
+def test_pack():
+    run_all(PackModel)
+
+def test_split():
+    run_all(SplitModel)
+
+def test_max():
+    run_all(Maximum)
+
+def test_less():
+    run_all(Less)
+
+def test_equal():
+    run_all(Equal)
+
+def test_floor():
+    run_all(Floor)
+    run_all(FloorMod)
+
+def test_concat_v2():
+    run_all(ConcatV2)
+
+def test_cast():
+    run_all(Cast)
+
+def test_expand_dims():
+    run_all(ExpandDims)
+
+def test_transpose():
+    run_all(Transpose)
+
+def test_reshape():
+    run_all(Reshape)
+    
+def test_tanh():
+    run_all(Tanh)
+
+def test_sigmoid():
+    run_all(Sigmoid)
+
+def test_relu():
+    run_all(Relu)
 
 def test_tensorlist():
     run_model_graph(TensorList)
@@ -721,6 +795,26 @@ def test_stateless_while_2var():
     run_model_graph(StatelessWhile2Var)
 
 if __name__ == "__main__":
+    test_add()
+    test_sub()
+    test_mul()
+    test_div()
+    test_strided_slice()
+    test_shape()
+    test_pack()
+    test_split()
+    test_max()
+    test_less()
+    test_equal()
+    test_floor()
+    test_concat_v2()
+    test_cast()
+    test_expand_dims()
+    test_transpose()
+    test_reshape()
+    test_tanh()
+    test_sigmoid()
+    test_relu()
     test_tensorlist()
     test_tensorlist_stack()
     test_tensorlist_2d()
@@ -729,35 +823,3 @@ if __name__ == "__main__":
     test_multi_output()
     test_stateless_while()
     test_stateless_while_2var()
-
-    # for test_class in [
-    #     AddOne, AddOne2D, AddOne2DConstant,
-    #     SubOne, SubOne2D, SubOne2DConstant,
-    #     MulOne, MulOne2D, MulOne2D_constant,
-    #     DivOne, DivOne2D, DivOne2DConstant,
-    #     StridedSlice, Shape, PackModel,
-    #     SplitModel, Maximum, Less, Equal, Floor,
-    #     FloorMod, ConcatV2, Cast, ExpandDims,
-    #     Transpose, Reshape,
-    #     Tanh, Sigmoid, Relu
-    # ]:
-    #     run_model_graph(test_class)
-    #     for use_vm in [True, False]:
-    #         run_func_graph(test_class, use_vm=use_vm)
-
-    # for test_class in [
-    #     # TensorList, TensorListStack,
-    #     # TensorList2D, TensorListStack2D,
-    #     TensorList2D,
-    #     If
-    # ]:
-    #     run_model_graph(test_class)
-    #     run_func_graph(test_class, use_vm=True)
-
-    # these tests require a saved graph
-    # for test_class in [
-    #     # MultiOutput,
-    #     # StatelessWhile,
-    #     StatelessWhile2Var
-    # ]:
-    #     run_model_graph(test_class, output_sig=('Identity', 'Identity_1'))

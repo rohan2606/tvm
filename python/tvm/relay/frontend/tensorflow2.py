@@ -75,8 +75,10 @@ class GraphProto:
         self._nodes = {}
         self._input_shapes = {}
         self._tf_node_map = {}
+        self._gdef_lib = {}
 
-    def from_tensorflow(self, graph, layout="NHWC", shape=None, outputs=None, input_types={}):
+    def from_tensorflow(self, graph, layout="NHWC", shape=None, outputs=None, input_types={}, gdef_lib={}):
+        self._gdef_lib = gdef_lib
         func = self._get_relay_func(graph, layout=layout, shape=shape, outputs=outputs, input_types=input_types)
         return func, self._params
     
@@ -152,11 +154,11 @@ class GraphProto:
         """
 
         if op_name in ["PartitionedCall", "StatefulPartitionedCall"]:
-            sym = _partition_call_operator(self._module, graph, inputs, attrs, self._prelude)
+            sym = _partition_call_operator(self._module, graph, inputs, attrs, self._prelude, gdef_lib=self._gdef_lib)
         elif op_name in ["StatelessIf", "If"]:
-            sym = _convert_if(self._module, graph, inputs, attrs, self._prelude)
+            sym = _convert_if(self._module, graph, inputs, attrs, self._prelude, gdef_lib=self._gdef_lib)
         elif op_name in ["StatelessWhile", "While"]:
-            sym = _convert_loop(self._module, graph, inputs, attrs, node_name, self._tf_node_map, self._prelude)
+            sym = _convert_loop(self._module, graph, inputs, attrs, node_name, self._tf_node_map, self._prelude, gdef_lib=self._gdef_lib)
         elif op_name in tf2_convert_map:
             if _need_prelude_for_shape_inference(op_name):
                 sym = tf2_convert_map[op_name](inputs, attrs, self._params, self._prelude)
@@ -241,22 +243,22 @@ class GraphProto:
 
         return out[0]
 
-def _partition_call_operator(module, graph, inputs, attr, prelude):
+def _partition_call_operator(module, graph, inputs, attr, prelude, gdef_lib):
     """ convert tf PartitionedCall node to a relay function call """
     node_func_name = attr.get("f").name
-    return _convert_function(module, graph, inputs, attr, node_func_name, prelude)
+    return _convert_function(module, graph, inputs, attr, node_func_name, prelude, gdef_lib=gdef_lib)
 
-def _convert_if(module, graph, inputs, attr, prelude):
+def _convert_if(module, graph, inputs, attr, prelude, gdef_lib):
     """ Convert tf If/StatelessIf to Relay If """
     cond_expr = inputs[0]
     branch_names = [attr.get(x).name for x in ["then_branch", "else_branch"]]
     then_fn, else_fn = [
-        _convert_function(module, graph, inputs[1:], attr, name, prelude) for name in branch_names
+        _convert_function(module, graph, inputs[1:], attr, name, prelude, gdef_lib=gdef_lib) for name in branch_names
     ]
     out = _expr.If(cond_expr, then_fn, else_fn)
     return out
 
-def _convert_loop(module, graph, inputs, attr, node_name, nodes, prelude):
+def _convert_loop(module, graph, inputs, attr, node_name, nodes, prelude, gdef_lib):
     """ convert tf while_loop to Relay loop """
     input_size = len(inputs)
     cond_fn_name, body_fn_name = [attr.get(x).name for x in ["cond", "body"]]
@@ -284,7 +286,7 @@ def _convert_loop(module, graph, inputs, attr, node_name, nodes, prelude):
     # in_shapes = nodes[node_name].attr["output_shapes"].list.shape
 
     def cond_fn(*loop_inputs):
-        return _convert_function(module, graph, loop_inputs, attr, cond_fn_name, prelude)
+        return _convert_function(module, graph, loop_inputs, attr, cond_fn_name, prelude, gdef_lib=gdef_lib)
 
     # Define the loop body, in this function we need to unpack loop inputs,
     # convert the loop subgraph, and pack outputs for the next iteration.
@@ -292,7 +294,7 @@ def _convert_loop(module, graph, inputs, attr, node_name, nodes, prelude):
         # Increment loop iteration counter
         loop_count = loop_inputs[0] + _expr.const(1, dtype='int32')
         max_count = loop_inputs[1]
-        fn = _convert_function(module, graph, loop_inputs, attr, body_fn_name, prelude)
+        fn = _convert_function(module, graph, loop_inputs, attr, body_fn_name, prelude, gdef_lib=gdef_lib)
 
         # Repack loop variables
         out = [loop_count, max_count] + [_expr.TupleGetItem(fn, i) for i in range(2, input_size)]
@@ -309,10 +311,9 @@ def _convert_loop(module, graph, inputs, attr, node_name, nodes, prelude):
         ),
         input_size
     )
-    # pdb.set_trace()
     return outputs
 
-def _convert_function(module, graph, inputs, attr, node_func_name, prelude, in_shapes=None):
+def _convert_function(module, graph, inputs, attr, node_func_name, prelude, gdef_lib, in_shapes=None):
     """ Convert given tf node to a relay function call
 
     Parameters
@@ -361,10 +362,13 @@ def _convert_function(module, graph, inputs, attr, node_func_name, prelude, in_s
     if len(devices) > 1:
         raise Exception("node_def in function {} contains > 1 types of devices {}".format(node_func_name, devices))
     
-    func_input_shapes = in_shapes
-    if func_input_shapes is None:
-        func_input_shapes = func.attr["_input_shapes"].list.shape
-    subgraph, _ = function_def_to_graph.function_def_to_graph_def(func, func_input_shapes)
+    # TODO: revert back to this original graph_def conversion after resolving
+    #   prelude init bug
+    # func_input_shapes = in_shapes
+    # if func_input_shapes is None:
+    #     func_input_shapes = func.attr["_input_shapes"].list.shape
+    # subgraph, _ = function_def_to_graph.function_def_to_graph_def(func, func_input_shapes)
+    subgraph = gdef_lib[node_func_name]
     # preserve library functions in subgraphs to make them available to nested functions
     for fn in graph.library.function:
         subgraph.library.function.add().CopyFrom(fn)
@@ -387,7 +391,7 @@ def _convert_function(module, graph, inputs, attr, node_func_name, prelude, in_s
         output_sig = [func.ret[f.name] for f in func.signature.output_arg]
 
         # TODO: unify prelude and main IRModules
-        sub_func, sub_params = g1.from_tensorflow(subgraph, outputs=output_sig, input_types=input_types)
+        sub_func, sub_params = g1.from_tensorflow(subgraph, outputs=output_sig, input_types=input_types, gdef_lib=gdef_lib)
         module.params.update(sub_params)
         func_expr = _function.Function(sub_func.params, sub_func.body)
         global_func = tvm.relay.GlobalVar(func_name)
@@ -466,19 +470,15 @@ def from_tensorflow(graph_def, layout="NHWC", shape=None, outputs=None):
 
     """
 
-    # func = graph_def.library.function[0]
-    # inshape = func.attr["_input_shapes"].list.shape
-    # import pdb; pdb.set_trace()
-    # x, _ = function_def_to_graph.function_def_to_graph_def(func, inshape)
+    # TODO: subgraph graph_defs are cached here to avoid a TF error when parsing after
+    #   prelude init
+    graph_def_library = {}
+    for func in graph_def.library.function:
+        inshape = func.attr["_input_shapes"].list.shape
+        graph_def_library[func.signature.name], _ = function_def_to_graph.function_def_to_graph_def(func, inshape)
     module = RelayModule()
-    # x, _ = function_def_to_graph.function_def_to_graph_def(func, inshape)
     g = GraphProto(module)
-    func, params = g.from_tensorflow(graph_def, layout, shape, outputs)
+    func, params = g.from_tensorflow(graph_def, layout, shape, outputs, gdef_lib=graph_def_library)
     module.mod["main"] = func
     module.params.update(params)
-    # print("=======Mod========")
-    # print(module.mod)
-    # print("=======Params keys========")
-    # print(module.params.keys())
-    # print("===============")
     return module.mod, module.params
