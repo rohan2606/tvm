@@ -1590,16 +1590,16 @@ def _broadcast_to():
 
 def _broadcast_args():
     def _impl(inputs, attr, params, mod):
-        shape0 = params[inputs[0].name_hint].asnumpy()[::-1]
-        shape1 = params[inputs[1].name_hint].asnumpy()[::-1]
+        shape0 = params[inputs[0].name_hint].asnumpy()
+        shape1 = params[inputs[1].name_hint].asnumpy()
 
         out_shape = []
-        for i,j in itertools.zip_longest(shape0, shape1, fillvalue=1):
+        for i,j in itertools.zip_longest(np.flipud(shape0), np.flipud(shape1), fillvalue=1):
             if i==j or j==1 or i==1:
-                out_shape.append(i if i==j or j==1 else j)
+                out_shape.insert(0, i if i==j or j==1 else j)
             else:
                 raise tvm.error.OpAttributeInvalid(
-                    "Broadcast args shapes not valid {} and {}".format(shape0, shape1)
+                    "Broadcast arg shapes not valid {} and {}".format(shape0, shape1)
                 ) 
         
         dtype0 = params[inputs[0].name_hint].dtype
@@ -1608,10 +1608,10 @@ def _broadcast_args():
             out_dtype = dtype0
         else:
             raise tvm.error.OpAttributeInvalid(
-                "Broadcast args types not valid {} and {}".format(dtype0, dtype1)
+                "Broadcast arg types not valid {} and {}".format(dtype0, dtype1)
             ) 
 
-        return tvm.relay.const(out_shape[::-1], out_dtype)
+        return tvm.relay.const(out_shape, out_dtype)
     return _impl
 
 
@@ -2672,6 +2672,7 @@ _convert_map = {
     "Round": AttrCvt("round"),
     "Rsqrt": _rsqrt(),
     "Select": _where(),
+    "SelectV2": _where(),
     "Selu": _selu(),
     "Shape": _shape(),
     "Sigmoid": AttrCvt("sigmoid"),
