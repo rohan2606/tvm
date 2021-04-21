@@ -22,6 +22,7 @@ from collections import defaultdict
 
 # Numpy support
 import numpy as np
+import itertools
 import tvm
 
 from tvm.ir import IRModule
@@ -1587,6 +1588,33 @@ def _broadcast_to():
     return _impl
 
 
+def _broadcast_args():
+    def _impl(inputs, attr, params, mod):
+        shape0 = params[inputs[0].name_hint].asnumpy()[::-1]
+        shape1 = params[inputs[1].name_hint].asnumpy()[::-1]
+
+        out_shape = []
+        for i,j in itertools.zip_longest(shape0, shape1, fillvalue=1):
+            if i==j or j==1 or i==1:
+                out_shape.append(i if i==j or j==1 else j)
+            else:
+                raise tvm.error.OpAttributeInvalid(
+                    "Broadcast args shapes not valid {} and {}".format(shape0, shape1)
+                ) 
+        
+        dtype0 = params[inputs[0].name_hint].dtype
+        dtype1 = params[inputs[1].name_hint].dtype
+        if dtype0 == dtype1:
+            out_dtype = dtype0
+        else:
+            raise tvm.error.OpAttributeInvalid(
+                "Broadcast args types not valid {} and {}".format(dtype0, dtype1)
+            ) 
+
+        return tvm.relay.const(out_shape[::-1], out_dtype)
+    return _impl
+
+
 def _squeeze():
     def _impl(inputs, attr, params, mod):
         if len(attr["squeeze_dims"]) == 0:
@@ -2503,7 +2531,7 @@ def _unique(return_counts=True):
 
     return _impl
 
-
+    
 # compatible operators that do NOT require any conversion.
 _identity_list = []
 
@@ -2550,6 +2578,7 @@ _convert_map = {
     "BatchToSpaceND": _batch_to_space_nd(),
     "BiasAdd": _bias_add(),
     "BroadcastTo": _broadcast_to(),
+    "BroadcastArgs": _broadcast_args(),
     "Cast": _cast(),
     "Ceil": AttrCvt("ceil"),
     "CheckNumerics": _check_numerics(),
