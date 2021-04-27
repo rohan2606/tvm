@@ -57,6 +57,15 @@ def _infer_type_with_prelude(val, prelude):
 def _need_prelude_for_shape_inference(op):
     return "TensorList" in op or "TensorArray" in op
 
+def detect_tf2_control_flow(_graph):
+    tensorlist_ops = ["TensorListFromTensor", "TensorListGetItem", "TensorListReserve", "TensorListSetItem", "TensorListStack"]
+    control_flow_ops = ["If", "StatelessIf", "While", "StatelessWhile"]
+    for node in _graph.node:
+        # TODO: how about shape?
+        if node.op in tensorlist_ops+control_flow_ops:
+            return True
+    return False
+
 class RelayModule:
     """ states related to the entire relay module (multiple functions) after converted from tf graphdef
     """
