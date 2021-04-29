@@ -3868,26 +3868,8 @@ def from_tensorflow(graph, layout="NHWC", shape=None, outputs=None):
     """
 
         
-    def detect_tf2_control_flow(_graph):
-        tensorlist_ops = ["TensorListFromTensor", "TensorListGetItem",  "TensorListReserve", "TensorListSetItem", "TensorListStack"]
-        control_flow_ops = ["If", "StatelessIf", "While", "StatelessWhile"]
-        def check_tf2_nodes(nodes):
-            for node in nodes:
-                if node.op in tensorlist_ops+control_flow_ops:
-                    return True
-                
-            return False
-
-        if check_tf2_nodes(_graph.node):
-            return True
-
-        for fn in _graph.library.function:
-            if check_tf2_nodes(fn.node_def):
-                return True
-
-        return False
-    
-    tf2_needed = detect_tf2_control_flow(graph)
+    from tvm.relay.frontend.tensorflow2 import detect_tf2_control_flow as _detect_tf2_control_flow
+    tf2_needed = _detect_tf2_control_flow(graph)
     if not tf2_needed:
         g = GraphProto()
         mod, params = g.from_tensorflow(graph, layout, shape, outputs)
