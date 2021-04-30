@@ -944,7 +944,7 @@ convert_map = {
     # "Softmax": _softmax(),
     # "Sub": _elemwise("subtract"),
     # "StridedSlice": _stridedSlice(),
-    "Shape": _shape(),
+    # "Shape": _shape(),
     # "Split": _split(False),
     # "Squeeze": _squeeze(),
 

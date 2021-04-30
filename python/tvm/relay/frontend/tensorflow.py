@@ -3867,6 +3867,14 @@ def from_tensorflow(graph, layout="NHWC", shape=None, outputs=None):
         Dict of converted parameters stored in tvm.nd.NDArray format
     """
 
-    g = GraphProto()
-    mod, params = g.from_tensorflow(graph, layout, shape, outputs)
+        
+    from tvm.relay.frontend.tensorflow2 import detect_tf2_control_flow as _detect_tf2_control_flow
+    tf2_needed = _detect_tf2_control_flow(graph)
+    if not tf2_needed:
+        g = GraphProto()
+        mod, params = g.from_tensorflow(graph, layout, shape, outputs)
+    else:
+        from tvm.relay.frontend.tensorflow2 import from_tensorflow as _from_tensorflow2
+        mod, params = _from_tensorflow2(graph, layout, shape, outputs)
+
     return mod, params
