@@ -1810,6 +1810,7 @@ def _gather():
             axis = _get_num_param(params, inputs.pop(2))
         else:
             axis = 0
+        batch_dims = 0
         if int(attr.get("batch_dims", 0)) != 0:
             batch_dims = int(attr.get("batch_dims", 0))
         new_input = inputs[0:2]
