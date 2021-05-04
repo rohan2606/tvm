@@ -1822,7 +1822,8 @@ def _gather():
             ignores=["Tindices", "Tparams", "validate_indices", "Taxis", "_class"],
         )(new_input, attr)
 
-    return op_
+        return op_
+    return _impl
 
 
 def _gather_nd():
