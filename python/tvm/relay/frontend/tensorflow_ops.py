@@ -17,6 +17,7 @@
 # pylint: disable=invalid-name, unused-argument, too-many-lines, len-as-condition, broad-except
 """Tensorflow2.x to relay converter ops and helper"""
 import warnings
+from collections import deque
 
 import tvm
 from .common import get_relay_op
@@ -32,6 +33,7 @@ from tvm.topi.utils import get_const_tuple
 from tvm.relay.prelude import Prelude, StaticTensorArrayOps, get_tensor_array_shape, TensorArrayOps
 from ..ty import Any, TensorType
 from .common import infer_value as _infer_value
+from .common import infer_value_simulated as _infer_value_simulated
 from .common import AttrCvt
 from .common import infer_shape as _infer_shape
 from .common import infer_type as _infer_type
@@ -992,9 +994,9 @@ def _resize(method):
             # Important that the size is defined. If an axis is not, we need to infer what
             # the shape should be.
             if -1 in size:
-                size = _infer_value(inputs[1], params, mod).asnumpy().reshape([-1]).tolist()
+                size = _infer_value_simulated(inputs[1], params).asnumpy().reshape([-1]).tolist()
         else:
-            size = _infer_value(inputs[1], params, mod).asnumpy().reshape([-1]).tolist()
+            size = _infer_value_simulated(inputs[1], params).asnumpy().reshape([-1]).tolist()
 
         attr["size"] = size
         inputs.pop(1)
@@ -1224,7 +1226,10 @@ def _identityn():
 def _concatV2():
     def _impl(inputs, attr, params, mod):
         pop_node = inputs.pop(len(inputs) - 1)
-        axis = int(_get_num_param(params, pop_node))
+        try:
+            axis = int(_get_num_param(params, pop_node))
+        except (IndexError, KeyError, AttributeError):
+            axis = int(_infer_value(pop_node, params, mod).asnumpy().tolist())
         return AttrCvt(op_name="concatenate", ignores=["T", "N", "Tidx"], extras={"axis": axis})(
             [inputs], attr
         )
@@ -1627,6 +1632,41 @@ def _broadcast_to():
 
     return _impl
 
+def _broadcast_args():
+    def _impl(inputs, attr, params, mod):
+        if isinstance(inputs[0], _expr.Var):
+            s0 = params[inputs[0].name_hint]
+        else:
+            s0 = _infer_value(inputs[0], params, mod)
+        if isinstance(inputs[1], _expr.Var):
+            s1 = params[inputs[1].name_hint]
+        else:
+            s1 = _infer_value(inputs[1], params, mod)
+        s0 = list(s0.asnumpy().reshape([-1]))
+        s1 = list(s1.asnumpy().reshape([-1]))
+        s0_size, s1_size = len(s0), len(s1)
+
+        out = deque([])
+        for i in range(1, min(s0_size, s1_size) + 1):
+            if s0[s0_size - i] == s1[s1_size - i]:
+                out.appendleft(s0[s0_size - i])
+            elif s0[s0_size - i] == 1:
+                out.appendleft(s1[s1_size - i])
+            else:
+                assert s1[s1_size - i] == 1, "Incompatible broadcast type %s and %s" % (
+                    s0[s0_size - i],
+                    s1[s1_size - i],
+                )
+                out.appendleft(s0[s0_size - i])
+        if s0_size < s1_size:
+            for i in range(s0_size + 1, s1_size + 1):
+                out.appendleft(s1[s1_size - i])
+        if s1_size < s0_size:
+            for i in range(s1_size + 1, s0_size + 1):
+                out.appendleft(s0[s0_size - i])
+        return _expr.const(list(out), attr["T"].name)
+
+    return _impl
 
 def _squeeze():
     def _impl(inputs, attr, params, mod):
@@ -1966,8 +2006,15 @@ def _stridedSlice():
         fshape_indices = None
         if begin_mask or end_mask or ellipsis_mask or new_axis_mask or shrink_axis_mask:
             begin, end, stride, fshape_indices = _transform_mask(stride_dim, ellipsis_mask)
-        out = _op.strided_slice(inputs[0], begin=begin, end=end, strides=stride)
-        out_shape = _infer_shape(out, mod=mod)
+        if begin > end:
+            dtype = in_type.checked_type.dtype
+            out = _expr.const([],dtype = dtype)
+            out_shape = (0,)
+        else:
+            out = _op.strided_slice(inputs[0], begin=begin, end=end, strides=stride)
+            out_shape = _infer_shape(out, mod=mod)
+        # out = _op.strided_slice(inputs[0], begin=begin, end=end, strides=stride)
+        # out_shape = _infer_shape(out, mod=mod)
         if not fshape_indices:
             fshape_indices = range(len(out_shape))
 
@@ -2596,6 +2643,7 @@ _convert_map = {
     "BatchToSpaceND": _batch_to_space_nd(),
     "BiasAdd": _bias_add(),
     "BroadcastTo": _broadcast_to(),
+    "BroadcastArgs": _broadcast_args(),
     "Cast": _cast(),
     "Ceil": AttrCvt("ceil"),
     "CheckNumerics": _check_numerics(),
@@ -2689,6 +2737,7 @@ _convert_map = {
     "Round": AttrCvt("round"),
     "Rsqrt": _rsqrt(),
     "Select": _where(),
+    "SelectV2": _where(),
     "Selu": _selu(),
     "Shape": _shape(),
     "Sigmoid": AttrCvt("sigmoid"),
