@@ -2241,8 +2241,10 @@ def test_forward_stridedslice():
 
     _test_stridedslice([], [0], [0], [1], "float32", new_axis_mask=1)
     _test_stridedslice([2], [1], [1], [1], "float32", shrink_axis_mask=1)
+    _test_stridedslice([4], [-1], [0], [1], "float32", shrink_axis_mask=1)
     _test_stridedslice([2, 1], [0], [1], [1], "float32", shrink_axis_mask=1)
     _test_stridedslice([2, 3, 4], [0], [1], [1], "float32", shrink_axis_mask=8)
+    _test_stridedslice([2, 3, 4], [-2], [0], [1], "float32", shrink_axis_mask=8)
     _test_stridedslice([3, 4, 3], [1, -1, 0], [4, -5, 3], [2, -1, 1], "float32")
     _test_stridedslice([3, 4, 3], [1, 0], [4, 3], [2, 1], "float32", ellipsis_mask=8)
     _test_stridedslice([3, 4, 3], [1, 0], [4, 2], [2, 1], "float32", ellipsis_mask=2)
@@ -2799,6 +2801,32 @@ def test_forward_resize():
     _test_resize_bilinear_from_tensor((6, 50, 50, 3), True)
     _test_resize_nearest_neighbor((6, 32, 32, 3), [20, 20])
     _test_resize_nearest_neighbor_dynamic_shape((1, 16, 16, 3), scale=[2, 2])
+
+#######################################################################
+# BroadcastArgs
+# -----------
+
+
+def _test_broadcast_args(in_shape_1, in_shape_2):
+    """ One iteration of broadcast_args"""
+
+    shape_1 = np.array(in_shape_1).astype("int32")
+    shape_2 = np.array(in_shape_2).astype("int32")
+
+    with tf.Graph().as_default():
+        shape_1 = constant_op.constant(shape_1, shape=shape_1.shape, dtype=shape_1.dtype)
+        shape_2 = constant_op.constant(shape_2, shape=shape_2.shape, dtype=shape_2.dtype)
+        tf.raw_ops.BroadcastArgs(s0=shape_1, s1=shape_2)
+
+        compare_tf_with_tvm(None, "", "BroadcastArgs:0", opt_level=0)
+
+
+def test_forward_broadcast_args():
+    """ Resize Bilinear """
+
+    _test_broadcast_args((4, 1, 32, 32), [4, 8, 32, 32])
+    _test_broadcast_args((6, 32, 32, 1), [6, 32, 32, 16])
+    _test_broadcast_args((32, 32, 16), [6, 32, 32, 16])
 
 
 #######################################################################
