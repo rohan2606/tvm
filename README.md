@@ -26,8 +26,6 @@
 [![WinMacBuild](https://github.com/apache/tvm/workflows/WinMacBuild/badge.svg)](https://github.com/apache/tvm/actions?query=workflow%3AWinMacBuild)
 
 SIMPLE TEST FOR MULTIPLE AUTHORS
-SIMPLE TEST FOR MULTIPLE AUTHORS
-
 
 Apache TVM is a compiler stack for deep learning systems. It is designed to close the gap between the
 productivity-focused deep learning frameworks, and the performance- and efficiency-focused hardware backends.
