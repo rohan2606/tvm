@@ -138,6 +138,25 @@ def _get_more_static_shape(shape0, shape1):
     return shape1
 
 
+def _get_more_static_shape_rank(shape0, shape1):
+    """Compare two shapes with different rank,
+    and return the one with fewer symbolic dimension.
+    """
+    num_sym_dim0 = 0
+    num_sym_dim1 = 0
+    for dim0 in list(shape0):
+        if not [isinstance(dim0, (int, tvm.tir.expr.IntImm))]:
+            num_sym_dim0 += 1
+
+    for dim1 in list(shape1):
+        if not [isinstance(dim1, (int, tvm.tir.expr.IntImm))]:
+            num_sym_dim1 += 1
+
+    if num_sym_dim0 < num_sym_dim1:
+        return shape0
+    return shape1
+
+
 def _rsqrt():
     def _impl(inputs, attr, params, mod):
         inputs.append(tvm.relay.const(-0.5, attr["T"].name))
