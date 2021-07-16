@@ -1233,8 +1233,7 @@ def from_tensorflow(graph, layout="NHWC", shape=None, outputs=None):
         Dict of converted parameters stored in tvm.nd.NDArray format
     """
 
-    tf2_needed = _detect_tf2_control_flow(graph)
-    print("TF2 needed?", tf2_needed)
+    tf2_needed = _detect_tf2_ops(graph)
     if not tf2_needed:
         g = GraphProto()
         mod, params = g.from_tensorflow(graph, layout, shape, outputs)
